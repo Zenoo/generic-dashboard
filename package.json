@@ -1,13 +1,12 @@
 {
-  "name": "material-ui-nextjs-ts",
-  "version": "5.0.0",
+  "name": "generic-dashboard",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "start http://localhost:3000 && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "post-update": "echo \"codesandbox preview only, need an update\" && pnpm update --latest"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/cache": "latest",

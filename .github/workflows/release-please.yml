@@ -2,15 +2,17 @@ on:
   push:
     branches:
       - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
 name: release-please
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: google-github-actions/release-please-action@v3
+      - uses: googleapis/release-please-action@v4
         with:
-          release-type: node
-          package-name: generic-dashboard
-          bump-minor-pre-major: true
-          default-branch: test
-          command: manifest
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
