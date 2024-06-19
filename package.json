@@ -6,7 +6,10 @@
     "dev": "start http://localhost:3000 && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix"
   },
   "dependencies": {
     "@emotion/cache": "latest",
@@ -28,7 +31,9 @@
     "@types/react-dom": "latest",
     "eslint": "^8",
     "eslint-config-next": "latest",
+    "eslint-config-prettier": "^9.1.0",
     "prisma": "^5.15.1",
-    "typescript": "latest"
+    "typescript": "latest",
+    "gts": "^5.3.1"
   }
 }

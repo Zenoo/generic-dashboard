@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import {PrismaClient} from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -26,7 +26,7 @@ async function main() {
         },
       },
     },
-    select: { id: true },
+    select: {id: true},
   });
 
   await prisma.user.create({
@@ -42,7 +42,7 @@ async function main() {
         },
       },
     },
-    select: { id: true },
+    select: {id: true},
   });
 }
 main()
@@ -52,5 +52,6 @@ main()
   .catch(async e => {
     console.error(e);
     await prisma.$disconnect();
+    // eslint-disable-next-line n/no-process-exit
     process.exit(1);
   });

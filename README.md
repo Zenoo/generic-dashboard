@@ -1,3 +1,5 @@
+[![Code Style: Google](https://img.shields.io/badge/code%20style-google-blueviolet.svg)](https://github.com/google/gts)
+
 ## Frameworks
 
 > Made with [Next.js](https://nextjs.org/), [Prisma](https://www.prisma.io/) and [MUI](https://mui.com/), written in [Typescript](https://www.typescriptlang.org/).

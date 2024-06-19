@@ -19,10 +19,10 @@ export default function About() {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
+        <Typography variant="h4" component="h1" sx={{mb: 2}}>
           Material UI - Next.js example in TypeScript
         </Typography>
-        <Box sx={{ maxWidth: 'sm' }}>
+        <Box sx={{maxWidth: 'sm'}}>
           <Button variant="contained" component={NextLink} href="/">
             Go to the home page
           </Button>
