@@ -1,45 +1,59 @@
-# Material UI - Next.js App Router example in TypeScript
+## Frameworks
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped using [`create-next-app`](https://github.com/vercel/next.js/tree/HEAD/packages/create-next-app) with Material UI installed.
+> Made with [Next.js](https://nextjs.org/), [Prisma](https://www.prisma.io/) and [MUI](https://mui.com/), written in [Typescript](https://www.typescriptlang.org/).
 
 ## How to use
 
-Download the example [or clone the repo](https://github.com/mui/material-ui):
+- Create a new project from this template
 
-<!-- #default-branch-switch -->
+![](https://i.imgur.com/Hc0JsXs.png)
 
-```bash
-curl https://codeload.github.com/mui/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/material-ui-nextjs-ts
-cd material-ui-nextjs-ts
-```
+- Copy `.env.sample` to `.env` and adapt the variables
 
-Install it and run:
+- Install dependencies: `pnpm i`
 
-```bash
-npm install
-npm run dev
-```
+- Update the database with `npx prisma migrate dev`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Start the app with `pnpm dev`
 
-or:
+### How to sync your database with your new Prisma schema
 
-<!-- #default-branch-switch -->
+- Run `npx prisma migrate dev`
 
-[![Edit on StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/mui/material-ui/tree/master/examples/material-ui-nextjs-ts)
+### How to seed your database
 
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/github/mui/material-ui/tree/master/examples/material-ui-nextjs-ts)
+- Edit `prisma/seed.ts` to customize the seed data
 
-## Learn more
+- Run `npx prisma db seed`
 
-To learn more about this example:
+## Deployment
 
-- [Next.js documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Customizing Material UI](https://mui.com/material-ui/customization/how-to-customize/) - approaches to customizing Material UI.
+*This project should deploy successfully as-is on Heroku*
 
-## What's next?
+- Set the environment variables
 
-<!-- #default-branch-switch -->
+- Install dependencies: `pnpm i`
 
-You now have a working example project.
-You can head back to the documentation and continue by browsing the [templates](https://mui.com/material-ui/getting-started/templates/) section.
+- Update the database with `npx prisma migrate deploy`
+
+- Build the app with `pnpm build`
+
+- Start the app with `pnpm start`
+
+## Contributing
+
+- Fork the project
+
+- Make sure your NodeJS version is up to date
+
+- Copy `.env.sample` to `.env` and adapt the database URL
+
+- Install dependencies: `pnpm i`
+
+- Update the database with `npx prisma migrate dev`
+
+- Start the app with `pnpm dev`
+
+- Commit and push your changes
+
+- Create a pull request

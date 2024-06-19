@@ -17,11 +17,13 @@
     "@mui/material": "latest",
     "@mui/material-nextjs": "latest",
     "@prisma/client": "5.15.1",
+    "bcrypt": "^5.1.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
