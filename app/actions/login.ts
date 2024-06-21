@@ -2,9 +2,9 @@
 
 import {signIn} from '@/auth';
 import {AuthError} from 'next-auth';
-import {State, StateErrors} from './State';
 import {z} from 'zod';
 import {zfd} from 'zod-form-data';
+import {State, StateErrors} from './State';
 
 const AuthenticateSchema = zfd.formData({
   login: zfd.text(z.string().max(255)),
@@ -25,8 +25,11 @@ export async function authenticate(
     } as const;
   }
   try {
-    await signIn('credentials', formData);
-
+    await signIn('credentials', {
+      login: parsedFormData.data.login,
+      password: parsedFormData.data.password,
+      redirectTo: '/app',
+    });
     return {};
   } catch (error) {
     if (error instanceof AuthError) {
@@ -52,6 +55,8 @@ export async function sendPasswordResetMail(login: string) {
       message: 'pleaseEnterLogin',
     } as const;
   }
+
+  console.log('TODO: Implement password reset logic');
 
   // TODO: Implement password reset logic
 
@@ -87,6 +92,8 @@ export async function resetPassword(
       errors: parsedFormData.error.flatten().fieldErrors,
     } as const;
   }
+
+  console.log('TODO: Implement password reset logic');
 
   // TODO
   return {};

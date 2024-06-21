@@ -1,37 +1,38 @@
 'use client';
-import {Roboto} from 'next/font/google';
 import {createTheme} from '@mui/material/styles';
-import {colors} from '@mui/material';
+import {FontStyle} from '@mui/material/styles/createTypography';
+import {Roboto} from 'next/font/google';
+import {ThemeOptions} from './ThemeOptions';
 import typography from './typography';
 
-const ThemeOptions = {
-  palette: {
-    background: {
-      dark: '#F4F6F8',
-      default: colors.common.white,
-      paper: colors.common.white,
-      whiteTransparent: 'rgba(255,255,255,0.6)',
-    },
-    primary: {
-      main: '#2b3b98',
-    },
-    secondary: {
-      main: '#f47723',
-    },
-    text: {
-      primary: colors.blueGrey[900],
-      secondary: colors.blueGrey[600],
-    },
-    transition: {
-      time: '0.5s',
-    },
-    scrollbar: {
-      main: 'rgba(0,0,0,.3)',
-      hover: 'rgba(0,0,0,.5)',
-    },
-  },
-  typography,
-};
+interface TypeTransition {
+  time: string;
+}
+
+interface TypeScrollbar {
+  main: string;
+  hover: string;
+}
+
+declare module '@mui/material/styles' {
+  interface TypeBackground {
+    dark: string;
+    whiteTransparent: string;
+  }
+
+  interface Palette {
+    transition: TypeTransition;
+    scrollbar: TypeScrollbar;
+  }
+  interface PaletteOptions {
+    transition: TypeTransition;
+    scrollbar: TypeScrollbar;
+  }
+  interface Typography {
+    largeTextBackground: FontStyle;
+    tinyTextBackground: FontStyle;
+  }
+}
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],

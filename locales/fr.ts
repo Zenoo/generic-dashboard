@@ -37,6 +37,7 @@ export default {
     continue: 'Continuer',
     invalidCredentials: 'Identifiants invalides',
     genericError: 'Une erreur est survenue',
+    unauthorized: 'Non autorisé',
   },
   actions: {
     actionsHistory: 'Historique des actions',

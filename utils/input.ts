@@ -1,4 +1,4 @@
-import {State} from '@/actions/State';
+import {State} from '@/app/actions/State';
 
 export type InputOptions = {
   required?: boolean;

@@ -51,6 +51,7 @@ export const {auth, signIn, signOut} = NextAuth({
     }),
   ],
   callbacks: {
+    ...authConfig.callbacks,
     session(data) {
       const userId = data.token.sub;
       if (!userId) return data.session;

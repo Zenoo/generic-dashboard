@@ -4,7 +4,7 @@ import {
   authenticate,
   resetPassword,
   sendPasswordResetMail,
-} from '@/actions/login';
+} from '@/app/actions/login';
 import Text from '@/components/Text';
 import {useScopedI18n} from '@/locales/client';
 import {input} from '@/utils/input';
@@ -58,7 +58,6 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-    console.log(state);
     if (state?.message) {
       toast.error(common(state.message));
     }
