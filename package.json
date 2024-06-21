@@ -11,18 +11,30 @@
     "compile": "tsc",
     "fix": "gts fix"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "dependencies": {
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
+    "@mui/lab": "5.0.0-alpha.170",
     "@mui/material": "latest",
     "@mui/material-nextjs": "latest",
     "@prisma/client": "5.15.1",
+    "accept-language": "^3.0.18",
     "bcrypt": "^5.1.1",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest"
+    "next": "15.0.0-rc.0",
+    "next-auth": "5.0.0-beta.19",
+    "next-international": "^1.2.4",
+    "react": "19.0.0-rc-f994737d14-20240522",
+    "react-dom": "19.0.0-rc-f994737d14-20240522",
+    "react-toastify": "^10.0.5",
+    "server-only": "^0.0.1",
+    "ts-node": "^10.9.2",
+    "zod": "^3.23.8",
+    "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -32,8 +44,8 @@
     "eslint": "^8",
     "eslint-config-next": "latest",
     "eslint-config-prettier": "^9.1.0",
+    "gts": "^5.3.1",
     "prisma": "^5.15.1",
-    "typescript": "latest",
-    "gts": "^5.3.1"
+    "typescript": "latest"
   }
 }

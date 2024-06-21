@@ -5,8 +5,8 @@ type LogoProps = {
   height?: number;
 };
 
-function Logo({width = 50, height = 50, ...rest}: LogoProps) {
-  const link = 'logo.svg';
+function Logo({width = 50, height = width, ...rest}: LogoProps) {
+  const link = '/logo.png';
 
   return (
     <Image alt="Logo" src={link} {...rest} width={width} height={height} />

@@ -36,7 +36,15 @@ export default function Layout(props: {children: React.ReactNode}) {
               overflow: 'auto',
             }}
           >
-            {props.children}
+            <Box
+              sx={{
+                bgcolor: 'background.dark',
+                minHeight: 1,
+                p: 2,
+              }}
+            >
+              {props.children}
+            </Box>
           </Box>
         </Box>
       </Box>

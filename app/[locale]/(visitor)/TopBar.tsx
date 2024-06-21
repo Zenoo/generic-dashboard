@@ -7,7 +7,7 @@ function TopBar({...rest}) {
   return (
     <AppBar elevation={0} {...rest}>
       <Toolbar sx={{height: 64}}>
-        <Link href="/login">
+        <Link href="/">
           <Logo />
         </Link>
       </Toolbar>

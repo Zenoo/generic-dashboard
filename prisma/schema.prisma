@@ -46,7 +46,7 @@ model User {
   lang           Lang     @default(en)
   login          String   @unique @db.VarChar(255)
   admin          Boolean  @default(false)
-  password       String?  @db.VarChar(255)
+  password       String   @db.VarChar(255)
   active         Boolean  @default(true)
   connexionToken String   @default("") @db.VarChar(255)
   person         Person   @relation(fields: [personId], references: [id])
