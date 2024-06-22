@@ -2,12 +2,14 @@
 
 import {
   authenticate,
+  checkResetCodeValidity,
   resetPassword,
   sendPasswordResetMail,
 } from '@/app/actions/login';
 import Text from '@/components/Text';
-import {useScopedI18n} from '@/locales/client';
-import {input} from '@/utils/input';
+import {useI18n} from '@/locales/client';
+import {input} from '@/utils/client/input';
+import {toastResponse} from '@/utils/client/toastResponse';
 import {LoadingButton} from '@mui/lab';
 import {
   Box,
@@ -22,11 +24,9 @@ import {
 } from '@mui/material';
 import {useSearchParams} from 'next/navigation';
 import {MouseEvent, useActionState, useEffect, useState} from 'react';
-import {toast} from 'react-toastify';
 
 export default function LoginForm() {
-  const t = useScopedI18n('login');
-  const common = useScopedI18n('common');
+  const t = useI18n();
   const [state, dispatch, loading] = useActionState(authenticate, undefined);
   const [login, setLogin] = useState('');
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
@@ -34,7 +34,7 @@ export default function LoginForm() {
   const resetPasswordWithParams = resetPassword.bind(
     null,
     login,
-    searchParams.get('code') || ''
+    searchParams.get('reset') || ''
   );
   const [resetState, resetDispatch, resetLoading] = useActionState(
     resetPasswordWithParams,
@@ -43,12 +43,7 @@ export default function LoginForm() {
 
   const callResetPassword = async () => {
     const resetState = await sendPasswordResetMail(login);
-
-    if (resetState.message) {
-      toast.error(t(resetState.message));
-    } else {
-      toast.success(t('passwordResetMailSent'));
-    }
+    toastResponse(t, resetState);
   };
 
   const closeResetDialog = (_: MouseEvent, reason?: string) => {
@@ -57,32 +52,65 @@ export default function LoginForm() {
     }
   };
 
+  // Display login error message
   useEffect(() => {
-    if (state?.message) {
-      toast.error(common(state.message));
+    if (!state) return;
+
+    toastResponse(t, state);
+  }, [state, t]);
+
+  // Check for password reset code on load
+  useEffect(() => {
+    const checkCode = async () => {
+      const code = searchParams.get('reset');
+      const log = searchParams.get('login');
+      if (code) {
+        // Prefill login field
+        setLogin(log || '');
+
+        const actionState = await checkResetCodeValidity(log || '', code);
+        toastResponse(t, actionState);
+        if (!actionState.error) {
+          // Open reset password dialog
+          setResetDialogOpen(true);
+        }
+      }
+    };
+    checkCode();
+  }, [searchParams, t]);
+
+  // Handle reset password state
+  useEffect(() => {
+    if (!resetState) return;
+
+    toastResponse(t, resetState);
+    if (resetState.success) {
+      setResetDialogOpen(false);
     }
-  }, [state, common]);
+  }, [resetState, t]);
 
   return (
     <>
       <form action={dispatch}>
         <Box mb={3}>
           <Text color="textPrimary" h2>
-            {t('signIn')}
+            {t('login.signIn')}
           </Text>
           <Text body2 color="textSecondary" gutterBottom>
-            {t('signInOnGD')}
+            {t('login.signInOnGD')}
           </Text>
         </Box>
         <TextField
-          {...input(t, state, 'login', 'text', {required: true})}
+          {...input(t, 'login', state, 'login', 'text', {required: true})}
           fullWidth
           value={login}
           onChange={e => setLogin(e.target.value)}
           sx={{mb: 2}}
         />
         <TextField
-          {...input(t, state, 'password', 'password', {required: true})}
+          {...input(t, 'login', state, 'password', 'password', {
+            required: true,
+          })}
           fullWidth
         />
         <Box mt={2}>
@@ -94,12 +122,12 @@ export default function LoginForm() {
             type="submit"
             variant="contained"
           >
-            {t('signInNow')}
+            {t('login.signInNow')}
           </LoadingButton>
         </Box>
       </form>
       <Button size="small" sx={{mt: 2}} onClick={callResetPassword}>
-        {t('passwordForgotten')}
+        {t('login.passwordForgotten')}
       </Button>
       <Dialog
         open={resetDialogOpen}
@@ -107,35 +135,42 @@ export default function LoginForm() {
         disableEscapeKeyDown
       >
         <form action={resetDispatch}>
-          <DialogTitle>{t('changePassword')}</DialogTitle>
+          <DialogTitle>{t('login.changePassword')}</DialogTitle>
           <DialogContent>
             <Stack spacing={2}>
               <DialogContentText>
-                {t('pleaseEnterNewPassword')}
+                {t('login.pleaseEnterNewPassword')}
               </DialogContentText>
               <TextField
-                {...input(t, resetState, 'password', 'password', {
+                {...input(t, 'login', resetState, 'password', 'password', {
                   required: true,
                 })}
                 fullWidth
               />
               <TextField
-                {...input(t, resetState, 'passwordConfirm', 'password', {
-                  required: true,
-                })}
+                {...input(
+                  t,
+                  'login',
+                  resetState,
+                  'passwordConfirm',
+                  'password',
+                  {
+                    required: true,
+                  }
+                )}
                 fullWidth
               />
             </Stack>
           </DialogContent>
           <DialogActions>
-            <Button onClick={closeResetDialog}>{common('cancel')}</Button>
+            <Button onClick={closeResetDialog}>{t('common.cancel')}</Button>
             <LoadingButton
               color="primary"
               loading={resetLoading}
               type="submit"
               variant="contained"
             >
-              {common('save')}
+              {t('common.save')}
             </LoadingButton>
           </DialogActions>
         </form>

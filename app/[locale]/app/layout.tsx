@@ -2,7 +2,7 @@ import {I18nProviderClient} from '@/locales/client';
 import {Box} from '@mui/material';
 import * as React from 'react';
 import TopAndNavBar from './TopAndNavBar';
-import {authUser} from '@/utils/authUserId';
+import {authUser} from '@/utils/server/authUserId';
 
 export default async function Layout(props: {
   children: React.ReactNode;

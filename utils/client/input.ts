@@ -1,4 +1,4 @@
-import {State} from '@/app/actions/State';
+import {State} from '@/utils/State';
 
 export type InputOptions = {
   required?: boolean;
@@ -6,15 +6,18 @@ export type InputOptions = {
 
 export const input = <T extends string>(
   t: Function,
+  scope: string,
   state: State<T> | undefined,
   name: T,
   type: string,
   options?: InputOptions
 ) => ({
   name,
-  label: t(name),
+  label: t(`${scope}.${name}`),
   type: type || 'text',
-  error: !!state?.errors?.[name]?.length,
-  helperText: state?.errors?.[name]?.join(' '),
+  error: !!state?.formErrors?.[name]?.length,
+  helperText: state?.formErrors?.[name]
+    ?.map(err => t(err.message, err.params))
+    .join('. '),
   required: options?.required,
 });

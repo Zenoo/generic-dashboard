@@ -1,7 +1,7 @@
 'use server';
 
 import {auth} from '@/auth';
-import prisma from '@/prisma/prisma';
+import {prisma} from '@/prisma/prisma';
 
 export const authUserId = async () => {
   const session = await auth();
@@ -14,7 +14,6 @@ export const authUserId = async () => {
 };
 
 export const authUser = async () => {
-  console.log('Fetching user');
   const userId = await authUserId();
 
   const user = await prisma.user.findUnique({

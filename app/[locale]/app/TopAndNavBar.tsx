@@ -3,7 +3,7 @@
 import {useState} from 'react';
 import TopBar from './TopBar';
 import NavBar from './NavBar';
-import {AuthedUser} from '@/utils/authUserId';
+import {AuthedUser} from '@/utils/server/authUserId';
 
 function TopAndNavBar({user}: {user: AuthedUser}) {
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);

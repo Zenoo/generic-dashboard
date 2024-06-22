@@ -2,7 +2,7 @@
 
 import Text from '@/components/Text';
 import {useScopedI18n} from '@/locales/client';
-import {AuthedUser} from '@/utils/authUserId';
+import {AuthedUser} from '@/utils/server/authUserId';
 import {Group, Input, Menu, MenuOpen, Person, Quiz} from '@mui/icons-material';
 import {
   Box,

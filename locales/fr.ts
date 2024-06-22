@@ -14,6 +14,7 @@ export default {
     minimize: 'Minimiser',
     maximize: 'Maximiser',
     input: {
+      invalid: 'Entrée invalide',
       required: 'Veuillez entrez une valeur dans ce champ',
       min: 'Ce champ doit contenir au moins {{number}} caractères',
       max: 'Ce champ ne doit pas faire plus de {{number}} caractères',
@@ -35,7 +36,6 @@ export default {
     integer: 'Ce champ doit être un entier',
     empty: 'Vide',
     continue: 'Continuer',
-    invalidCredentials: 'Identifiants invalides',
     genericError: 'Une erreur est survenue',
     unauthorized: 'Non autorisé',
   },
@@ -59,6 +59,7 @@ export default {
     signInNow: 'Se connecter maintenant',
     login: 'Connexion',
     password: 'Mot de passe',
+    passwordConfirm: 'Confirmer le mot de passe',
     passwordForgotten: 'Mot de passe oublié ?',
     pleaseEnterLogin: 'Veuillez entrer votre identifiant',
     passwordResetMailSent:
@@ -69,6 +70,8 @@ export default {
     passwordsMustMatch: 'Les mots de passe doivent correspondre',
     passwordResetSuccess:
       'Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter.',
+    invalidCredentials: 'Identifiants invalides',
+    passwordUpdated: 'Mot de passe mis à jour avec succès',
   },
   table: {
     updateSuccess: 'Mise à jour réussie',
@@ -92,6 +95,7 @@ export default {
     profile: 'Profil',
     firstName: 'Prénom',
     lastName: 'Nom',
+    login: 'Identifiant',
     email: 'Email',
     phone: 'Téléphone',
     password: 'Mot de passe',
@@ -101,5 +105,32 @@ export default {
     lang: 'Langue',
     fr: 'Français',
     en: 'Anglais',
+  },
+  server: {
+    noIDProvided: 'ID manquant',
+    nothingToExport: 'Rien à exporter',
+    unauthorized: 'Non autorisé',
+    missingLogin: 'Identifiant manquant',
+    missingPassword: 'Mot de passe manquant',
+    missingToken: 'Token manquant',
+    sessionExpiredPleaseReconnect: 'Session expirée, veuillez vous reconnecter',
+    invalidPassword: 'Mot de passe invalide',
+    resetPasswordEmail: 'Email de réinitialisation de mot de passe',
+    cannotSendOldPassword:
+      'Nous ne pouvons pas simplement vous envoyer votre ancien mot de passe. Un lien unique pour réinitialiser votre mot de passe a été généré pour vous. Pour réinitialiser votre mot de passe, cliquez sur le bouton suivant et suivez les instructions.',
+    resetPassword: 'Réinitialiser le mot de passe',
+    passwordResetMessage:
+      'Si le bouton ne fonctionne pas, copiez et collez ce qui suit dans votre navigateur',
+    resetYourPassword: 'Réinitialiser votre mot de passe',
+    clickLinkToResetPassword:
+      'Cliquez sur le lien suivant pour réinitialiser votre mot de passe',
+    emailNotSent: 'Email non envoyé',
+    emailSent: 'Email envoyé',
+    tokenValid: 'Token valide',
+    invalidToken: 'Token invalide',
+    unableToConnectToMailServer:
+      'Impossible de se connecter au serveur de messagerie',
+    unknownUser: 'Utilisateur inconnu',
+    appUrlNotSet: 'APP_URL non défini',
   },
 } as const;

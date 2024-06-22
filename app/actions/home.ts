@@ -1,7 +1,7 @@
 'use server';
 
-import prisma from '@/prisma/prisma';
-import {authUserId} from '@/utils/authUserId';
+import {prisma} from '@/prisma/prisma';
+import {authUserId} from '@/utils/server/authUserId';
 
 export const stats = async () => {
   await authUserId();
