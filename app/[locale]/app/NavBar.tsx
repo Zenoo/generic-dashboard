@@ -297,60 +297,58 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
 
   return (
     <>
-      {!lgUp ? (
-        <>
-          <Drawer
-            anchor="left"
-            onClose={() => setMobileNavOpen(false)}
-            open={isMobileNavOpen}
-            sx={{
-              '& .MuiDrawer-paper': {
-                width: 8 * 32,
-                zIndex: 99,
-              },
-            }}
-            variant="temporary"
-          >
-            {content}
-          </Drawer>
-          <Tooltip title={minimized ? t('maximize') : t('minimize')}>
-            <IconButton
-              onClick={handleMenuResize}
-              size="large"
-              sx={{
-                position: 'absolute',
-                top: 8 * 8,
-                left: 8 * 1,
-                zIndex: 1201,
-              }}
-            >
-              {minimized ? <Menu /> : <MenuOpen />}
-            </IconButton>
-          </Tooltip>
-        </>
-      ) : (
-        <Drawer
-          anchor="left"
-          open
+      <Drawer
+        anchor="left"
+        onClose={() => setMobileNavOpen(false)}
+        open={isMobileNavOpen}
+        sx={{
+          display: {xs: 'block', lg: 'none'},
+          '& .MuiDrawer-paper': {
+            width: 8 * 32,
+            zIndex: 99,
+          },
+        }}
+        variant="temporary"
+      >
+        {content}
+      </Drawer>
+      <Tooltip title={minimized ? t('maximize') : t('minimize')}>
+        <IconButton
+          onClick={handleMenuResize}
+          size="large"
           sx={{
-            '& .MuiDrawer-paper': {
-              width: 8 * 32,
-              height: 'calc(100% - 64px)',
-              position: 'relative',
-              mt: 8,
-              ...(minimized
-                ? {
-                    width: 8 * 8,
-                    overflow: 'hidden',
-                  }
-                : null),
-            },
+            display: {xs: 'block', lg: 'none'},
+            position: 'absolute',
+            top: 8 * 8,
+            left: 8 * 1,
+            zIndex: 1201,
           }}
-          variant="persistent"
         >
-          {content}
-        </Drawer>
-      )}
+          {minimized ? <Menu /> : <MenuOpen />}
+        </IconButton>
+      </Tooltip>
+      <Drawer
+        anchor="left"
+        open
+        sx={{
+          display: {xs: 'none', lg: 'block'},
+          '& .MuiDrawer-paper': {
+            width: 8 * 32,
+            height: 'calc(100% - 64px)',
+            position: 'relative',
+            mt: 8,
+            ...(minimized
+              ? {
+                  width: 8 * 8,
+                  overflow: 'hidden',
+                }
+              : null),
+          },
+        }}
+        variant="persistent"
+      >
+        {content}
+      </Drawer>
     </>
   );
 }
