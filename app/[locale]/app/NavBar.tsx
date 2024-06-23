@@ -131,6 +131,71 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
     }
   }, [pathname, isMobileNavOpen, setMobileNavOpen]);
 
+  // Pre open nested lists depending on the current path + set selected item
+  useEffect(() => {
+    const path = pathname;
+    setOpen(prev =>
+      items.reduce<OpenState[]>((acc, curr) => {
+        const id = curr.id || curr.title;
+        let foundNested = false;
+
+        if (curr.nestedList) {
+          curr.nestedList.forEach(nestedItem => {
+            const nestedId = nestedItem.id || nestedItem.title;
+            let foundNestedNested = false;
+            if (nestedItem.nestedList) {
+              nestedItem.nestedList.forEach(nestedNestedItem => {
+                if (nestedNestedItem.href && path === nestedNestedItem.href) {
+                  foundNestedNested = true;
+                  acc.push({
+                    title: nestedId,
+                    open: true,
+                  });
+                  setSelected(nestedNestedItem.id || nestedNestedItem.title);
+                }
+              });
+
+              if (!foundNestedNested) {
+                acc.push({
+                  title: nestedId,
+                  open: (prev.find(p => p.title === nestedId) || {open: false})
+                    .open,
+                });
+              }
+            } else if (nestedItem.href && path === nestedItem.href) {
+              setSelected(nestedId);
+            }
+
+            if (
+              (nestedItem.href && path === nestedItem.href) ||
+              foundNestedNested
+            ) {
+              foundNested = true;
+              acc.push({
+                title: id,
+                open: true,
+              });
+              if (!foundNestedNested) {
+                setSelected(nestedId);
+              }
+            }
+          });
+
+          if (!foundNested) {
+            acc.push({
+              title: id,
+              open: (prev.find(p => p.title === id) || {open: false}).open,
+            });
+          }
+        } else if (curr.href && curr.href === path) {
+          setSelected(id);
+        }
+
+        return acc;
+      }, [])
+    );
+  }, [items, pathname]);
+
   const content = (
     <Box display="flex" flexDirection="column" height="100%">
       <Box
