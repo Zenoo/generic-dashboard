@@ -2,6 +2,7 @@
 
 import {logout} from '@/app/actions/dashboard';
 import Logo from '@/components/Logo';
+import {AuthedUser} from '@/utils/server/authUserId';
 import {Input, Menu, Person} from '@mui/icons-material';
 import {
   AppBar,
@@ -15,18 +16,19 @@ import Link from 'next/link';
 
 type TopBarProps = AppBarProps & {
   setMobileNavOpen: (open: boolean) => void;
+  user: AuthedUser;
 };
 
-function TopBar({setMobileNavOpen, ...rest}: TopBarProps) {
+function TopBar({setMobileNavOpen, user, ...rest}: TopBarProps) {
   return (
     <AppBar elevation={0} {...rest}>
       <Toolbar>
-        <Link href="/app/home">
+        <Link href="/app">
           <Logo width={50} />
         </Link>
         <Box flexGrow={1} />
         <Box sx={{display: {xs: 'none', lg: 'block'}}}>
-          <Link href="/app/account">
+          <Link href={`/app/user/${user.id}/edit`}>
             <IconButton size="large">
               <Tooltip title="Account">
                 <Person />

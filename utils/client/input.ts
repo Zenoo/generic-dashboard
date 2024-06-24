@@ -4,10 +4,10 @@ export type InputOptions = {
   required?: boolean;
 };
 
-export const input = <T extends string>(
+export const input = <Data, T extends string>(
   t: Function,
   scope: string,
-  state: State<T> | undefined,
+  state: State<Data, T> | undefined,
   name: T,
   type: string,
   options?: InputOptions

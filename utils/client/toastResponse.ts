@@ -1,9 +1,9 @@
 import {State} from '@/utils/State';
 import {toast} from 'react-toastify';
 
-export const toastResponse = <T extends string>(
+export const toastResponse = <Data, T extends string>(
   t: Function,
-  state: State<T>
+  state: State<Data, T>
 ) => {
   if (state.error) {
     toast.error(t(state.error.message, state.error.params));

@@ -7,12 +7,14 @@ export type FormErrors<Fields extends string> = Partial<
   Record<Fields, Message[]>
 >;
 
-export type State<Fields extends string | undefined = undefined> = {
-  formErrors?: Fields extends undefined
-    ? undefined
-    : FormErrors<Exclude<Fields, undefined>>;
+export type State<
+  Data = undefined,
+  Fields extends string | undefined = undefined,
+> = {
+  formErrors?: FormErrors<Exclude<Fields, undefined>>;
   error?: Message;
   success?: Message;
+  data?: Data;
 };
 
 export const error = (
@@ -23,10 +25,12 @@ export const error = (
   error: {message: scope ? `${scope}.${message}` : message, params},
 });
 
-export const success = (
+export const success = <Data>(
   scope: string | null,
+  data: Data,
   message: string,
   params?: Record<string, string | number>
-): State => ({
+): State<Data> => ({
   success: {message: scope ? `${scope}.${message}` : message, params},
+  data,
 });

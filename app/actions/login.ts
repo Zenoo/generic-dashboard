@@ -26,7 +26,7 @@ type AuthenticateFields = 'login' | 'password';
 
 // Authenticate user
 export async function authenticate(
-  prevState: State<AuthenticateFields> | undefined,
+  prevState: State<undefined, AuthenticateFields> | undefined,
   formData: FormData
 ): Promise<typeof prevState> {
   const parsedFormData = AuthenticateSchema.safeParse(formData);
@@ -63,7 +63,7 @@ export async function sendPasswordResetMail(login: string): Promise<State> {
     });
 
     if (!user) {
-      return success(SCOPE, 'passwordResetMailSent');
+      return success(SCOPE, undefined, 'passwordResetMailSent');
     }
 
     // Generate token
@@ -97,7 +97,7 @@ export async function sendPasswordResetMail(login: string): Promise<State> {
       throw new Error('server.emailNotSent');
     }
 
-    return success(SCOPE, 'passwordResetMailSent');
+    return success(SCOPE, undefined, 'passwordResetMailSent');
   } catch (error) {
     return handleError(error, SCOPE);
   }
@@ -151,7 +151,7 @@ type ResetPasswordFields = 'password' | 'passwordConfirm';
 export async function resetPassword(
   login: string,
   code: string,
-  prevState: State<ResetPasswordFields> | undefined,
+  prevState: State<undefined, ResetPasswordFields> | undefined,
   formData: FormData
 ): Promise<typeof prevState> {
   try {
@@ -191,7 +191,7 @@ export async function resetPassword(
       },
     });
 
-    return success(SCOPE, 'passwordUpdated');
+    return success(SCOPE, undefined, 'passwordUpdated');
   } catch (error) {
     return handleError(error, SCOPE);
   }

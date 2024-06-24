@@ -10,7 +10,7 @@ function TopAndNavBar({user}: {user: AuthedUser}) {
 
   return (
     <>
-      <TopBar setMobileNavOpen={setMobileNavOpen} />
+      <TopBar setMobileNavOpen={setMobileNavOpen} user={user} />
       <NavBar
         isMobileNavOpen={isMobileNavOpen}
         setMobileNavOpen={setMobileNavOpen}

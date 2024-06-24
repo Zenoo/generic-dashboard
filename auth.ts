@@ -37,7 +37,7 @@ export const {auth, signIn, signOut} = NextAuth({
             select: {id: true, login: true, admin: true, password: true},
           });
           if (!user) {
-            throw new Error('userNotFound');
+            throw new Error('unknownUser');
           }
           const passwordsMatch = await bcrypt.compare(password, user.password);
 

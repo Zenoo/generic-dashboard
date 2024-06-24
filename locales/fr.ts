@@ -131,6 +131,9 @@ export default {
     unableToConnectToMailServer:
       'Impossible de se connecter au serveur de messagerie',
     unknownUser: 'Utilisateur inconnu',
+    unknownObject: 'Objet inconnu',
     appUrlNotSet: 'APP_URL non défini',
+    dataLoaded: 'Données chargées',
+    success: 'Succès',
   },
 } as const;

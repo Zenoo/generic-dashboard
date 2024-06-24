@@ -3,7 +3,7 @@ import {AuthError} from 'next-auth';
 import {z} from 'zod';
 import {ExpectedError, ServerError} from './CustomErrors';
 
-export const handleError = (error: unknown, scope: string): State => {
+export const handleError = (error: unknown, scope = 'server'): State => {
   if (error instanceof AuthError) {
     if (
       error.type === 'CredentialsSignin' ||

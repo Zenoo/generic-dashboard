@@ -129,6 +129,9 @@ export default {
     invalidToken: 'Invalid token',
     unableToConnectToMailServer: 'Unable to connect to mail server',
     unknownUser: 'Unknown user',
+    unknownObject: 'Unknown object',
     appUrlNotSet: 'APP_URL not set',
+    dataLoaded: 'Data loaded',
+    success: 'Success',
   },
 } as const;

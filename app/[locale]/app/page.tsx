@@ -10,6 +10,13 @@ import {
   Grid,
 } from '@mui/material';
 
+export async function generateMetadata() {
+  const t = await getScopedI18n('common');
+  return {
+    title: t('home'),
+  };
+}
+
 const display = {
   users: Person2,
   stat2: LocalAtm,

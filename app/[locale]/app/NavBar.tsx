@@ -218,7 +218,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
       {!lgUp && (
         <>
           <Toolbar>
-            <Link href="/app/account">
+            <Link href={`/app/user/${user.id}/edit`}>
               <IconButton size="large">
                 <Tooltip title="Account">
                   <Person />
