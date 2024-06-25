@@ -105,6 +105,7 @@ export default {
     lang: 'Language',
     fr: 'French',
     en: 'English',
+    profileUpdated: 'Profile updated',
   },
   server: {
     noIDProvided: 'No ID provided',

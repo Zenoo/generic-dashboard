@@ -1,7 +1,7 @@
 import {prisma} from '@/prisma/prisma';
 import {authUserId} from '@/utils/server/authUserId';
 import {ServerError} from '@/utils/server/CustomErrors';
-import {handleError, zodErrors} from '@/utils/server/handleError';
+import {handleError} from '@/utils/server/handleError';
 import {
   getData,
   MOCK_PrismaModel,
@@ -11,7 +11,6 @@ import {Model, SelectObject} from '@/utils/server/types';
 import {State, success} from '@/utils/State';
 import {PrismaClient} from '@prisma/client';
 import {revalidatePath} from 'next/cache';
-import {ZodEffects, ZodTypeAny} from 'zod';
 
 export interface GenericPrisma extends PrismaClient {
   [key: string]: unknown;
@@ -165,18 +164,11 @@ const update =
   (model: string) =>
   async <Fields extends string>(
     id: string,
-    zodSchema: ZodEffects<ZodTypeAny, unknown, unknown>,
     prevState: State<undefined, Fields> | undefined,
     formData: FormData
   ): Promise<typeof prevState> => {
     try {
       await authUserId();
-
-      const parsedFormData = zodSchema.safeParse(formData);
-
-      if (!parsedFormData.success) {
-        return zodErrors(parsedFormData) as typeof prevState;
-      }
 
       const prismaModel = (prisma as GenericPrisma)[model] as MOCK_PrismaModel;
 

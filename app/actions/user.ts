@@ -1,7 +1,6 @@
 'use server';
 
 import {prisma} from '@/prisma/prisma';
-import {UpdateProfileSchema, UpdateUserFields} from '@/utils/FormSchema';
 import {authUserId} from '@/utils/server/authUserId';
 import {ServerError} from '@/utils/server/CustomErrors';
 import {handleError, zodErrors} from '@/utils/server/handleError';
@@ -9,6 +8,9 @@ import {State, success} from '@/utils/State';
 import bcrypt from 'bcrypt';
 import {revalidatePath} from 'next/cache';
 import REST from './REST';
+import {zfd} from 'zod-form-data';
+import {z} from 'zod';
+import {Lang} from '@prisma/client';
 
 const rest = REST('user');
 export const insertUser = rest.insert;
@@ -20,6 +22,30 @@ export const updateUser = rest.update;
 export const deleteUser = rest.deleteObject;
 
 const SCOPE = 'user';
+
+const UpdateProfileSchema = zfd
+  .formData({
+    firstName: z.string().max(255),
+    lastName: z.string().max(255),
+    email: z.string().email().max(255),
+    phone: z.string().max(255),
+    password: z.string().max(255).optional(),
+    passwordConfirm: z.string().max(255).optional(),
+    lang: z.enum(Object.values(Lang) as [Lang, ...Lang[]]),
+  })
+  .refine(data => data.password === data.passwordConfirm, {
+    message: 'login.passwordsMustMatch',
+    path: ['passwordConfirm'],
+  });
+
+type UpdateUserFields =
+  | 'firstName'
+  | 'lastName'
+  | 'email'
+  | 'phone'
+  | 'password'
+  | 'passwordConfirm'
+  | 'lang';
 
 // Update profile
 export async function updateProfile(
@@ -101,7 +127,7 @@ export async function updateProfile(
     revalidatePath('/app/user/list');
     revalidatePath(`/app/user/${id}/edit`);
 
-    return success(SCOPE, undefined, 'passwordUpdated');
+    return success(SCOPE, undefined, 'profileUpdated');
   } catch (error) {
     return handleError(error, SCOPE);
   }

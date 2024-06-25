@@ -1,10 +1,9 @@
 'use client';
 
-import {updateUser} from '@/app/actions/user';
+import {updateProfile} from '@/app/actions/user';
 import {useI18n} from '@/locales/client';
 import {input} from '@/utils/client/input';
 import {toastResponse} from '@/utils/client/toastResponse';
-import {UpdateProfileSchema, UpdateUserFields} from '@/utils/FormSchema';
 import {LoadingButton} from '@mui/lab';
 import {
   Box,
@@ -31,13 +30,9 @@ type ProfileDetailsProps = {
 
 export function ProfileDetails({user}: ProfileDetailsProps) {
   const t = useI18n();
-  const updateUserWithParams = (updateUser<UpdateUserFields>).bind(
-    null,
-    user.id,
-    UpdateProfileSchema
-  );
+  const updateProfileWithParams = updateProfile.bind(null, user.id);
   const [state, dispatch, loading] = useActionState(
-    updateUserWithParams,
+    updateProfileWithParams,
     undefined
   );
 

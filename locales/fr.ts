@@ -105,6 +105,7 @@ export default {
     lang: 'Langue',
     fr: 'Français',
     en: 'Anglais',
+    profileUpdated: 'Profil mis à jour',
   },
   server: {
     noIDProvided: 'ID manquant',
