@@ -6,6 +6,11 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["nativeDistinct", "relationJoins", "omitApi"]
+}
+
+generator zod {
+  provider = "zod-prisma"
 }
 
 datasource db {
@@ -44,10 +49,13 @@ enum Lang {
 model User {
   id             String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   lang           Lang     @default(en)
+  /// @zod.max(255)
   login          String   @unique @db.VarChar(255)
   admin          Boolean  @default(false)
+  /// @zod.max(255)
   password       String   @db.VarChar(255)
   active         Boolean  @default(true)
+  /// @zod.max(255)
   connexionToken String   @default("") @db.VarChar(255)
   person         Person   @relation(fields: [personId], references: [id])
   personId       String   @unique @db.Uuid

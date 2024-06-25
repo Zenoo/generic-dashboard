@@ -22,6 +22,7 @@ export const authUser = async () => {
       id: true,
       login: true,
       admin: true,
+      lang: true,
       person: {
         select: {firstName: true, lastName: true},
       },

@@ -1,8 +1,10 @@
 'use client';
 
 import Text from '@/components/Text';
+import useLocalStorage from '@/hooks/useLocalStorage';
 import {useScopedI18n} from '@/locales/client';
 import {AuthedUser} from '@/utils/server/authUserId';
+import Version from '@/utils/Version';
 import {Group, Input, Menu, MenuOpen, Person, Quiz} from '@mui/icons-material';
 import {
   Box,
@@ -12,17 +14,14 @@ import {
   IconButton,
   List,
   SvgIconTypeMap,
-  Theme,
   Toolbar,
   Tooltip,
-  useMediaQuery,
 } from '@mui/material';
 import {OverridableComponent} from '@mui/material/OverridableComponent';
 import Link from 'next/link';
+import {usePathname} from 'next/navigation';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import NavItem from './NavItem';
-import {usePathname} from 'next/navigation';
-import Version from '@/utils/Version';
 
 type NavBarProps = {
   isMobileNavOpen: boolean;
@@ -49,11 +48,11 @@ interface MenuItem {
 function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
   const pathname = usePathname();
   const t = useScopedI18n('common');
-  const lgUp = useMediaQuery<Theme>(theme => theme.breakpoints.up('lg'));
-  const [minimized, setMinimized] = useState(
-    typeof window !== 'undefined' &&
-      localStorage.getItem('menu:minimized') === 'true'
+  const [minimizedState, setMinimized] = useLocalStorage(
+    'menu:minimized',
+    'false'
   );
+  const isMinimized = minimizedState === 'true';
   const [open, setOpen] = useState<OpenState[]>([]);
   const [selected, setSelected] = useState('');
 
@@ -62,7 +61,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
       [
         user.admin
           ? {
-              href: '/app/admin/user/list',
+              href: '/app/user/list',
               icon: Group,
               title: t('userList'),
             }
@@ -102,10 +101,8 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
    */
   const handleMenuResize = useCallback(() => {
     // Store preference locally
-    localStorage.setItem('menu:minimized', minimized ? 'false' : 'true');
-
-    setMinimized(!minimized);
-  }, [minimized]);
+    setMinimized(isMinimized ? 'false' : 'true');
+  }, [isMinimized, setMinimized]);
 
   const handleOpen = useCallback(
     (title: string) => () => {
@@ -207,7 +204,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
           minHeight: 8 * 6,
         }}
       >
-        {(!minimized || isMobileNavOpen) && (
+        {(!isMinimized || isMobileNavOpen) && (
           <Text color="textPrimary" h5>
             {user.person.firstName} {user.person.lastName}
           </Text>
@@ -215,25 +212,29 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
       </Box>
       <Divider />
 
-      {!lgUp && (
-        <>
-          <Toolbar>
-            <Link href={`/app/user/${user.id}/edit`}>
-              <IconButton size="large">
-                <Tooltip title="Account">
-                  <Person />
-                </Tooltip>
-              </IconButton>
-            </Link>
-            <IconButton color="inherit" size="large">
-              <Tooltip title="Logout">
-                <Input />
-              </Tooltip>
-            </IconButton>
-          </Toolbar>
-          <Divider />
-        </>
-      )}
+      <Toolbar
+        sx={{
+          display: {xs: 'flex', lg: 'none'},
+        }}
+      >
+        <Link href={`/app/user/${user.id}/edit`}>
+          <IconButton size="large">
+            <Tooltip title="Account">
+              <Person />
+            </Tooltip>
+          </IconButton>
+        </Link>
+        <IconButton color="inherit" size="large">
+          <Tooltip title="Logout">
+            <Input />
+          </Tooltip>
+        </IconButton>
+      </Toolbar>
+      <Divider
+        sx={{
+          display: {xs: 'flex', lg: 'none'},
+        }}
+      />
 
       <Box sx={{p: 0}}>
         <List sx={{width: 1, pt: 0}}>
@@ -244,11 +245,11 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
                   <NavItem
                     href={item.href}
                     icon={item.icon}
-                    minimized={minimized && !isMobileNavOpen}
+                    minimized={isMinimized && !isMobileNavOpen}
                     notifications={item.notifications}
                     onClick={handleOpen(item.id || item.title)}
                     selected={selected === (item.id || item.title)}
-                    title={minimized && !isMobileNavOpen ? '' : item.title}
+                    title={isMinimized && !isMobileNavOpen ? '' : item.title}
                     hasChildren={!!item.nestedList}
                   />
                   {item.nestedList ? (
@@ -267,7 +268,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
                       <List
                         component="div"
                         disablePadding
-                        sx={{pl: minimized ? 2 : 3}}
+                        sx={{pl: isMinimized ? 2 : 3}}
                       >
                         {item.nestedList.map(nestedItem => (
                           <Box key={nestedItem.title}>
@@ -275,7 +276,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
                               href={nestedItem.href}
                               icon={nestedItem.icon}
                               key={nestedItem.title}
-                              minimized={minimized && !isMobileNavOpen}
+                              minimized={isMinimized && !isMobileNavOpen}
                               nestedItem
                               notifications={nestedItem.notifications}
                               onClick={handleOpen(
@@ -285,7 +286,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
                                 selected === (nestedItem.id || nestedItem.title)
                               }
                               title={
-                                minimized && !isMobileNavOpen
+                                isMinimized && !isMobileNavOpen
                                   ? ''
                                   : nestedItem.title
                               }
@@ -308,7 +309,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
                                 <List
                                   component="div"
                                   disablePadding
-                                  sx={{pl: minimized ? 1 : 3}}
+                                  sx={{pl: isMinimized ? 1 : 3}}
                                 >
                                   {nestedItem.nestedList.map(
                                     nestedNestedItem => (
@@ -317,7 +318,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
                                         icon={nestedNestedItem.icon}
                                         key={nestedNestedItem.title}
                                         minimized={
-                                          minimized && !isMobileNavOpen
+                                          isMinimized && !isMobileNavOpen
                                         }
                                         selected={
                                           selected ===
@@ -329,7 +330,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
                                           nestedNestedItem.notifications
                                         }
                                         title={
-                                          minimized && !isMobileNavOpen
+                                          isMinimized && !isMobileNavOpen
                                             ? ''
                                             : nestedNestedItem.title
                                         }
@@ -351,7 +352,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
       </Box>
       <Box flexGrow={1} />
       <Box bgcolor="background.dark" m={2} p={2}>
-        {!minimized && !isMobileNavOpen && (
+        {!isMinimized && !isMobileNavOpen && (
           <Text align="center" body2>
             PREVIEW - v{Version}
           </Text>
@@ -377,19 +378,20 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
       >
         {content}
       </Drawer>
-      <Tooltip title={minimized ? t('maximize') : t('minimize')}>
+      <Tooltip title={isMinimized ? t('maximize') : t('minimize')}>
         <IconButton
           onClick={handleMenuResize}
           size="large"
           sx={{
-            display: {xs: 'block', lg: 'none'},
+            display: {xs: 'none', lg: 'block'},
             position: 'absolute',
             top: 8 * 8,
             left: 8 * 1,
             zIndex: 1201,
+            height: 48,
           }}
         >
-          {minimized ? <Menu /> : <MenuOpen />}
+          {isMinimized ? <Menu /> : <MenuOpen />}
         </IconButton>
       </Tooltip>
       <Drawer
@@ -402,7 +404,7 @@ function NavBar({isMobileNavOpen, setMobileNavOpen, user}: NavBarProps) {
             height: 'calc(100% - 64px)',
             position: 'relative',
             mt: 8,
-            ...(minimized
+            ...(isMinimized
               ? {
                   width: 8 * 8,
                   overflow: 'hidden',

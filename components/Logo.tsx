@@ -9,7 +9,14 @@ function Logo({width = 50, height = width, ...rest}: LogoProps) {
   const link = '/logo.png';
 
   return (
-    <Image alt="Logo" src={link} {...rest} width={width} height={height} />
+    <Image
+      alt="Logo"
+      priority
+      src={link}
+      {...rest}
+      width={width}
+      height={height}
+    />
   );
 }
 

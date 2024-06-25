@@ -1,5 +1,4 @@
-import {prisma} from '@/prisma/prisma';
-import {Model, SelectObject} from './types';
+import {GridFilterItem, GridLinkOperator} from '@mui/x-data-grid';
 
 export interface MOCK_PrismaModel {
   create: (prop: {data: unknown; select: {id: true}}) => Promise<unknown>;
@@ -10,11 +9,11 @@ export interface MOCK_PrismaModel {
   delete: (prop: object) => Promise<unknown>;
 }
 
-const filterOperatorMapper = {
+export const filterOperatorMapper = {
   or: 'OR',
   and: 'AND',
 };
-const operatorMapper = {
+export const operatorMapper: Record<string, string | undefined> = {
   contains: 'contains',
   equals: 'equals',
   startsWith: 'startsWith',
@@ -34,79 +33,18 @@ const operatorMapper = {
   onOrBefore: 'lte',
   isEmpty: 'equals',
   isNotEmpty: 'not',
-} as const;
+};
 
 export type TableSortDirection = 'asc' | 'desc';
+export type SortOrder = {
+  direction: TableSortDirection;
+  name: string;
+} | null;
 
-export interface TableRequestBody<Select> {
-  state: {
-    page: number; // 0 based
-    rowsPerPage: number;
-    sortOrder?: {
-      direction: TableSortDirection;
-      name: string;
-    };
-    filters: {
-      value: unknown;
-      columnField: string;
-      operatorValue: keyof typeof operatorMapper;
-    }[];
-    filtersOperator: 'or' | 'and';
-  };
-  select?: Select;
+export interface TableState {
+  page: number; // 0 based
+  rowsPerPage: number;
+  sortOrder?: SortOrder;
+  filters: GridFilterItem[];
+  filtersOperator: GridLinkOperator;
 }
-
-/**
- * Get data for the table request
- * @param req
- * @param model
- * @param where
- */
-export const getData = async <T extends Model, Select extends SelectObject<T>>(
-  query: TableRequestBody<Select>,
-  model: T,
-  where?: object
-) => {
-  const {
-    state: {page, rowsPerPage, sortOrder, filters, filtersOperator},
-    select,
-  } = query;
-
-  // Generate prisma filters
-  const prismaFilters = filters.map(filter => {
-    const operator = operatorMapper[filter.operatorValue];
-
-    return {
-      [filter.columnField]: {
-        [operator]: filter.value,
-      },
-    };
-  });
-
-  const prismaModel = prisma[model];
-
-  // Get objects
-  const objects = await prismaModel.findMany({
-    where: {
-      [filterOperatorMapper[filtersOperator]]: prismaFilters,
-      ...where,
-    },
-    orderBy: {[sortOrder?.name || 'id']: sortOrder?.direction || 'asc'},
-    skip: page * rowsPerPage,
-    take: rowsPerPage,
-    select,
-  });
-
-  // Get total count
-  const count = await prismaModel.count({
-    where: {
-      [filterOperatorMapper[filtersOperator]]: prismaFilters,
-      ...where,
-    },
-  });
-
-  return {
-    data: objects,
-    count,
-  };
-};

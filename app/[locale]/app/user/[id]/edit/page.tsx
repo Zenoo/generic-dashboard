@@ -1,9 +1,11 @@
 import {getUser} from '@/app/actions/user';
-import {I18nProviderClient} from '@/locales/client';
+import {ClientBoundary} from '@/components/ClientBoundary';
+import {getScopedI18n} from '@/locales/server';
+import {authUser} from '@/utils/server/authUserId';
 import {Container, Grid} from '@mui/material';
+import {redirect} from 'next/navigation';
 import Profile from './Profile';
 import {ProfileDetails} from './ProfileDetails';
-import {getScopedI18n} from '@/locales/server';
 
 export async function generateMetadata() {
   const t = await getScopedI18n('user');
@@ -15,6 +17,13 @@ export async function generateMetadata() {
 export default async function Page(props: {
   params: {id: string; locale: string};
 }) {
+  const authedUser = await authUser();
+
+  // Limit access to admin + self
+  if (authedUser.id !== props.params.id && !authedUser.admin) {
+    redirect('/app');
+  }
+
   const {data: user} = await getUser(props.params.id, {
     id: true,
     login: true,
@@ -34,9 +43,9 @@ export default async function Page(props: {
           <Profile user={user} />
         </Grid>
         <Grid item lg={8} md={6} xs={12}>
-          <I18nProviderClient locale={props.params.locale}>
+          <ClientBoundary locale={props.params.locale}>
             <ProfileDetails user={user} />
-          </I18nProviderClient>
+          </ClientBoundary>
         </Grid>
       </Grid>
     </Container>

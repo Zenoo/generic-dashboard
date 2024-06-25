@@ -1,8 +1,8 @@
-import {I18nProviderClient} from '@/locales/client';
+import {ClientBoundary} from '@/components/ClientBoundary';
+import {authUser} from '@/utils/server/authUserId';
 import {Box} from '@mui/material';
 import * as React from 'react';
 import TopAndNavBar from './TopAndNavBar';
-import {authUser} from '@/utils/server/authUserId';
 
 export default async function Layout(props: {
   children: React.ReactNode;
@@ -20,9 +20,9 @@ export default async function Layout(props: {
         width: 1,
       }}
     >
-      <I18nProviderClient locale={props.params.locale}>
+      <ClientBoundary locale={props.params.locale}>
         <TopAndNavBar user={user} />
-      </I18nProviderClient>
+      </ClientBoundary>
       <Box
         sx={{
           display: 'flex',

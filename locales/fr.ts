@@ -136,5 +136,6 @@ export default {
     appUrlNotSet: 'APP_URL non défini',
     dataLoaded: 'Données chargées',
     success: 'Succès',
+    internalError: 'Erreur interne',
   },
 } as const;

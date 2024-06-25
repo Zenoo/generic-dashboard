@@ -134,5 +134,6 @@ export default {
     appUrlNotSet: 'APP_URL not set',
     dataLoaded: 'Data loaded',
     success: 'Success',
+    internalError: 'Internal error',
   },
 } as const;
