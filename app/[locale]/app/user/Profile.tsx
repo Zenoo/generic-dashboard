@@ -1,4 +1,5 @@
 import Text from '@/components/Text';
+import {getScopedI18n} from '@/locales/server';
 import {
   Avatar,
   Box,
@@ -11,12 +12,14 @@ import {Person} from '@prisma/client';
 import dayjs from 'dayjs';
 
 type ProfileProps = {
-  user: {
+  user?: {
     person: Pick<Person, 'firstName' | 'lastName'>;
   };
 };
 
 export default async function Profile({user, ...rest}: ProfileProps) {
+  const t = await getScopedI18n('user');
+
   return (
     <Card {...rest}>
       <CardContent>
@@ -28,7 +31,9 @@ export default async function Profile({user, ...rest}: ProfileProps) {
             }}
           />
           <Text color="textPrimary" gutterBottom h3>
-            {user.person.firstName} {user.person.lastName}
+            {user
+              ? `${user.person.firstName} ${user.person.lastName}`
+              : t('newUser')}
           </Text>
           <Text body1 color="textSecondary">
             {`${dayjs().format('HH:mm')}`}

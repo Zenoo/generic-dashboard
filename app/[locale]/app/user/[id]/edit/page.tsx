@@ -4,8 +4,8 @@ import {getScopedI18n} from '@/locales/server';
 import {authUser} from '@/utils/server/authUserId';
 import {Container, Grid} from '@mui/material';
 import {redirect} from 'next/navigation';
-import Profile from './Profile';
-import {ProfileDetails} from './ProfileDetails';
+import Profile from '../../Profile';
+import {ProfileDetails} from '../../ProfileDetails';
 
 export async function generateMetadata() {
   const t = await getScopedI18n('user');
@@ -44,7 +44,7 @@ export default async function Page(props: {
         </Grid>
         <Grid item lg={8} md={6} xs={12}>
           <ClientBoundary locale={props.params.locale}>
-            <ProfileDetails user={user} />
+            <ProfileDetails authedUser={authedUser} user={user} />
           </ClientBoundary>
         </Grid>
       </Grid>

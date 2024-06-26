@@ -106,6 +106,7 @@ export default {
     fr: 'French',
     en: 'English',
     profileUpdated: 'Profile updated',
+    loginTaken: 'Login already taken',
   },
   server: {
     noIDProvided: 'No ID provided',

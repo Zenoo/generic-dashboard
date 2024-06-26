@@ -190,6 +190,7 @@ export const getUsersTable = async (state: TableState) => {
 
 const UpdateProfileSchema = zfd
   .formData({
+    login: z.string().max(255),
     firstName: z.string().max(255),
     lastName: z.string().max(255),
     email: z.string().email().max(255),
@@ -197,6 +198,10 @@ const UpdateProfileSchema = zfd
     password: z.string().max(255).optional(),
     passwordConfirm: z.string().max(255).optional(),
     lang: z.enum(Object.values(Lang) as [Lang, ...Lang[]]),
+    admin: z
+      .string()
+      .nullish()
+      .transform(value => value === 'on'),
   })
   .refine(data => data.password === data.passwordConfirm, {
     message: 'login.passwordsMustMatch',
@@ -204,13 +209,15 @@ const UpdateProfileSchema = zfd
   });
 
 type UpdateUserFields =
+  | 'login'
   | 'firstName'
   | 'lastName'
   | 'email'
   | 'phone'
   | 'password'
   | 'passwordConfirm'
-  | 'lang';
+  | 'lang'
+  | 'admin';
 
 // Update profile
 export async function updateProfile(
@@ -238,6 +245,29 @@ export async function updateProfile(
 
     if (!user) {
       throw new ServerError('unknownUser');
+    }
+
+    // Limit admin editing to admin
+    if (parsedFormData.data.admin && !user.admin) {
+      throw new ServerError('unauthorized');
+    }
+
+    // Check if login is already taken
+    if (parsedFormData.data.login) {
+      const userWithLogin = await prisma.user.count({
+        where: {
+          id: {not: id},
+          login: parsedFormData.data.login,
+        },
+      });
+
+      if (userWithLogin) {
+        return {
+          formErrors: {
+            login: [{message: 'user.loginTaken'}],
+          },
+        };
+      }
     }
 
     const userToUpdate = await prisma.user.findUnique({
@@ -275,6 +305,8 @@ export async function updateProfile(
       where: {id: userToUpdate.id},
       data: {
         lang: parsedFormData.data.lang,
+        admin: parsedFormData.data.admin,
+        login: parsedFormData.data.login,
         person: {
           update: {
             firstName: parsedFormData.data.firstName,

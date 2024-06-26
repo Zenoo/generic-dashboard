@@ -1,17 +1,21 @@
 'use client';
 
-import {updateProfile} from '@/app/actions/user';
+import {insertUser, updateProfile} from '@/app/actions/user';
 import {useI18n} from '@/locales/client';
 import {input} from '@/utils/client/input';
 import {toastResponse} from '@/utils/client/toastResponse';
+import {AuthedUser} from '@/utils/server/authUserId';
 import {LoadingButton} from '@mui/lab';
 import {
   Box,
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
   Divider,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   FormHelperText,
   Grid,
   InputLabel,
@@ -23,16 +27,21 @@ import {Lang, Person, User} from '@prisma/client';
 import {useActionState, useEffect} from 'react';
 
 type ProfileDetailsProps = {
-  user: Pick<User, 'id' | 'login' | 'admin' | 'lang'> & {
+  authedUser: AuthedUser;
+  user?: Pick<User, 'id' | 'login' | 'admin' | 'lang'> & {
     person: Pick<Person, 'firstName' | 'lastName' | 'email' | 'phone'>;
   };
 };
 
-export function ProfileDetails({user}: ProfileDetailsProps) {
+export function ProfileDetails({authedUser, user}: ProfileDetailsProps) {
   const t = useI18n();
-  const updateProfileWithParams = updateProfile.bind(null, user.id);
+  const updateProfileWithParams = updateProfile.bind(null, user?.id || '');
   const [state, dispatch, loading] = useActionState(
     updateProfileWithParams,
+    undefined
+  );
+  const [insertState, insertDispatch, insertLoading] = useActionState(
+    insertUser,
     undefined
   );
 
@@ -44,21 +53,40 @@ export function ProfileDetails({user}: ProfileDetailsProps) {
   }, [state, t]);
 
   return (
-    <form autoComplete="off" action={dispatch}>
+    <form autoComplete="off" action={user ? dispatch : insertDispatch}>
       <Card>
         <CardHeader
           subheader={t('user.informationCanBeEdited')}
-          title={t('user.profile')}
+          title={user ? t('user.editUser') : t('user.newUser')}
         />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
+            {authedUser.admin && authedUser.id !== user?.id && (
+              <Grid item xs={12} sm={6}>
+                <FormControlLabel
+                  control={
+                    <Checkbox name="admin" defaultChecked={user?.admin} />
+                  }
+                  label={t('user.giveAdminRights')}
+                />
+              </Grid>
+            )}
+            <Grid item md={6} xs={12}>
+              <TextField
+                {...input(t, 'user', state, 'login', 'text', {
+                  required: true,
+                })}
+                defaultValue={user?.login}
+                fullWidth
+              />
+            </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 {...input(t, 'user', state, 'firstName', 'text', {
                   required: true,
                 })}
-                defaultValue={user.person.firstName}
+                defaultValue={user?.person.firstName}
                 fullWidth
               />
             </Grid>
@@ -67,21 +95,21 @@ export function ProfileDetails({user}: ProfileDetailsProps) {
                 {...input(t, 'user', state, 'lastName', 'text', {
                   required: true,
                 })}
-                defaultValue={user.person.lastName}
+                defaultValue={user?.person.lastName}
                 fullWidth
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 {...input(t, 'user', state, 'email', 'email', {required: true})}
-                defaultValue={user.person.email}
+                defaultValue={user?.person.email}
                 fullWidth
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 {...input(t, 'user', state, 'phone', 'tel')}
-                defaultValue={user.person.phone}
+                defaultValue={user?.person.phone}
                 fullWidth
               />
             </Grid>
@@ -91,12 +119,14 @@ export function ProfileDetails({user}: ProfileDetailsProps) {
                 fullWidth
               />
             </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                {...input(t, 'user', state, 'passwordConfirm', 'password')}
-                fullWidth
-              />
-            </Grid>
+            {user && (
+              <Grid item md={6} xs={12}>
+                <TextField
+                  {...input(t, 'user', state, 'passwordConfirm', 'password')}
+                  fullWidth
+                />
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <FormControl
                 fullWidth
@@ -107,7 +137,7 @@ export function ProfileDetails({user}: ProfileDetailsProps) {
                 <Select
                   label={t('user.lang')}
                   name="lang"
-                  defaultValue={user.lang || Lang.en}
+                  defaultValue={user?.lang || Lang.en}
                 >
                   {Object.values(Lang).map(lang => (
                     <MenuItem key={lang} value={lang}>
