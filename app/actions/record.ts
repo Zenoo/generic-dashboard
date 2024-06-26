@@ -1,6 +1,7 @@
 'use server';
 
 import {prisma} from '@/prisma/prisma';
+import {asCsv} from '@/utils/server/asCsv';
 import {authUserId} from '@/utils/server/authUserId';
 import {handleError} from '@/utils/server/handleError';
 import {
@@ -9,7 +10,6 @@ import {
   TableState,
 } from '@/utils/server/TableUtils';
 import {success} from '@/utils/State';
-import {asCsv} from './table';
 
 /**
  * Get records for a paginated table

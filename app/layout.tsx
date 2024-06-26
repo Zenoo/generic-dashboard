@@ -8,7 +8,7 @@ import {ThemeProvider} from '@mui/material/styles';
 import shadows from '@mui/material/styles/shadows';
 import * as React from 'react';
 import {ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-toastify/ReactToastify.min.css';
 
 export async function generateMetadata() {
   const t = await getScopedI18n('common.meta');

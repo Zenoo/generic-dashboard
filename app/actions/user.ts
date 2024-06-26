@@ -1,6 +1,7 @@
 'use server';
 
 import {prisma} from '@/prisma/prisma';
+import {asCsv} from '@/utils/server/asCsv';
 import {authUserId} from '@/utils/server/authUserId';
 import {ServerError} from '@/utils/server/CustomErrors';
 import {handleError, zodErrors} from '@/utils/server/handleError';
@@ -15,7 +16,6 @@ import bcrypt from 'bcrypt';
 import {revalidatePath} from 'next/cache';
 import {z} from 'zod';
 import {zfd} from 'zod-form-data';
-import {asCsv} from './table';
 
 const SCOPE = 'user';
 
@@ -333,13 +333,32 @@ export const getAllUsersAsCsv = async () => {
   try {
     await authUserId();
 
-    const objects = await prisma.user.findMany({});
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        login: true,
+        person: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+    });
 
-    if (!objects.length) {
+    if (!users.length) {
       throw new Error('nothingToExport');
     }
 
-    const csv = asCsv(objects);
+    const csv = asCsv(
+      users.map(user => ({
+        id: user.id,
+        login: user.login,
+        name: `${
+          user.person ? `${user.person.firstName} ${user.person.lastName}` : ''
+        }`,
+      }))
+    );
 
     // Send CSV file
     return success('server', csv, 'dataLoaded');

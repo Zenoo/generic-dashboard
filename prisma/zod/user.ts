@@ -9,7 +9,6 @@ export const UserModel = z.object({
   admin: z.boolean(),
   password: z.string().max(255),
   active: z.boolean(),
-  connexionToken: z.string().max(255),
   personId: z.string(),
 })
 

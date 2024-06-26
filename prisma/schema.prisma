@@ -55,8 +55,6 @@ model User {
   /// @zod.max(255)
   password       String   @db.VarChar(255)
   active         Boolean  @default(true)
-  /// @zod.max(255)
-  connexionToken String   @default("") @db.VarChar(255)
   person         Person   @relation(fields: [personId], references: [id])
   personId       String   @unique @db.Uuid
   records        Record[]

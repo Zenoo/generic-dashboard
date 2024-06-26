@@ -1,9 +1,7 @@
-'use server';
-
-import {ServerError} from '@/utils/server/CustomErrors';
+import {ServerError} from './CustomErrors';
 
 /**
- * Get all objects from the database as a CSV
+ * Transform an array of objects into a CSV string
  * @param model
  */
 export const asCsv = (objects: Record<string, unknown>[]) => {
