@@ -1,13 +1,13 @@
 'use server';
 
 import {prisma} from '@/prisma/prisma';
-import {asCsv} from '@/utils/server/asCsv';
 import {authUserId} from '@/utils/server/authUserId';
 import {ServerError} from '@/utils/server/CustomErrors';
 import {handleError, zodErrors} from '@/utils/server/handleError';
 import {
+  asCsv,
   filterOperatorMapper,
-  operatorMapper,
+  generateFilters,
   TableState,
 } from '@/utils/server/TableUtils';
 import {State, success} from '@/utils/State';
@@ -143,22 +143,7 @@ export const getUsersTable = async (state: TableState) => {
     const where = {};
 
     // Generate prisma filters
-    const prismaFilters = filters.map(filter => {
-      if (!filter.operatorValue) {
-        return {};
-      }
-      const operator = operatorMapper[filter.operatorValue];
-
-      if (!operator) {
-        return {};
-      }
-
-      return {
-        [filter.columnField]: {
-          [operator]: filter.value,
-        },
-      };
-    });
+    const prismaFilters = generateFilters(filters);
 
     // Get objects
     const objects = await prisma.user.findMany({
@@ -354,9 +339,8 @@ export const getAllUsersAsCsv = async () => {
       users.map(user => ({
         id: user.id,
         login: user.login,
-        name: `${
-          user.person ? `${user.person.firstName} ${user.person.lastName}` : ''
-        }`,
+        firstName: user.person.firstName,
+        lastName: user.person.lastName,
       }))
     );
 

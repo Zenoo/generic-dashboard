@@ -2,7 +2,7 @@
 
 import {deleteUser, getAllUsersAsCsv, getUsersTable} from '@/app/actions/user';
 import TableLayout from '@/components/TableLayout';
-import {useScopedI18n} from '@/locales/client';
+import {useI18n} from '@/locales/client';
 import {AuthedUser} from '@/utils/server/authUserId';
 import {useRouter} from 'next/navigation';
 
@@ -10,7 +10,7 @@ type UserTableProps = {
   user: AuthedUser;
 };
 export default function UserTable({user}: UserTableProps) {
-  const t = useScopedI18n('common');
+  const t = useI18n();
   const router = useRouter();
 
   // Limit access to admin
@@ -26,9 +26,8 @@ export default function UserTable({user}: UserTableProps) {
   ) => ({
     id: user.id,
     login: user.login,
-    'person.firstName, person.lastName': `${
-      user.person ? `${user.person.firstName} ${user.person.lastName}` : ''
-    }`,
+    'person.firstName': user.person.firstName,
+    'person.lastName': user.person.lastName,
   });
 
   // New user redirection
@@ -47,7 +46,7 @@ export default function UserTable({user}: UserTableProps) {
       getter={getUsersTable}
       globalCsvExport={{
         fetcher: getAllUsersAsCsv,
-        title: t('userList'),
+        title: t('common.userList'),
       }}
       mapper={mapper}
       add={goToNewUser}
@@ -57,12 +56,17 @@ export default function UserTable({user}: UserTableProps) {
         columns: [
           {
             field: 'login',
-            headerName: 'Login',
+            headerName: t('user.login'),
             flex: 1,
           },
           {
-            field: 'person.firstName, person.lastName',
-            headerName: 'Name',
+            field: 'person.firstName',
+            headerName: t('user.firstName'),
+            flex: 1,
+          },
+          {
+            field: 'person.lastName',
+            headerName: t('user.lastName'),
             flex: 1,
           },
         ],

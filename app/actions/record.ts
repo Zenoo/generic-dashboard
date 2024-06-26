@@ -1,8 +1,8 @@
 'use server';
 
 import {prisma} from '@/prisma/prisma';
-import {asCsv} from '@/utils/server/asCsv';
 import {authUserId} from '@/utils/server/authUserId';
+import {asCsv} from '@/utils/server/TableUtils';
 import {handleError} from '@/utils/server/handleError';
 import {
   filterOperatorMapper,
