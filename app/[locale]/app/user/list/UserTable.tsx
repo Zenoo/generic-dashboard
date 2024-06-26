@@ -5,6 +5,8 @@ import TableLayout from '@/components/TableLayout';
 import {useI18n} from '@/locales/client';
 import {AuthedUser} from '@/utils/server/authUserId';
 import {useRouter} from 'next/navigation';
+import {useEffect} from 'react';
+import {toast} from 'react-toastify';
 
 type UserTableProps = {
   user: AuthedUser;
@@ -14,9 +16,12 @@ export default function UserTable({user}: UserTableProps) {
   const router = useRouter();
 
   // Limit access to admin
-  if (!user || !user.admin) {
-    router.push('/app');
-  }
+  useEffect(() => {
+    if (!user || !user.admin) {
+      toast.error(t('server.unauthorized'));
+      router.push('/app');
+    }
+  }, [user, router, t]);
 
   const mapper = (
     user: Exclude<
@@ -41,36 +46,38 @@ export default function UserTable({user}: UserTableProps) {
   };
 
   return (
-    <TableLayout
-      user={user}
-      getter={getUsersTable}
-      globalCsvExport={{
-        fetcher: getAllUsersAsCsv,
-        title: t('common.userList'),
-      }}
-      mapper={mapper}
-      add={goToNewUser}
-      edit={goToUserEdit}
-      remove={deleteUser}
-      tableOptions={{
-        columns: [
-          {
-            field: 'login',
-            headerName: t('user.login'),
-            flex: 1,
-          },
-          {
-            field: 'person.firstName',
-            headerName: t('user.firstName'),
-            flex: 1,
-          },
-          {
-            field: 'person.lastName',
-            headerName: t('user.lastName'),
-            flex: 1,
-          },
-        ],
-      }}
-    />
+    user.admin && (
+      <TableLayout
+        user={user}
+        getter={getUsersTable}
+        globalCsvExport={{
+          fetcher: getAllUsersAsCsv,
+          title: t('common.userList'),
+        }}
+        mapper={mapper}
+        add={goToNewUser}
+        edit={goToUserEdit}
+        remove={deleteUser}
+        tableOptions={{
+          columns: [
+            {
+              field: 'login',
+              headerName: t('user.login'),
+              flex: 1,
+            },
+            {
+              field: 'person.firstName',
+              headerName: t('user.firstName'),
+              flex: 1,
+            },
+            {
+              field: 'person.lastName',
+              headerName: t('user.lastName'),
+              flex: 1,
+            },
+          ],
+        }}
+      />
+    )
   );
 }

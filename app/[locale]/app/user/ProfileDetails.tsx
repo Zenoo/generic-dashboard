@@ -15,7 +15,6 @@ import {
   Divider,
   FormControl,
   FormControlLabel,
-  FormGroup,
   FormHelperText,
   Grid,
   InputLabel,
@@ -36,7 +35,7 @@ type ProfileDetailsProps = {
 export function ProfileDetails({authedUser, user}: ProfileDetailsProps) {
   const t = useI18n();
   const updateProfileWithParams = updateProfile.bind(null, user?.id || '');
-  const [state, dispatch, loading] = useActionState(
+  const [editState, editDispatch, editLoading] = useActionState(
     updateProfileWithParams,
     undefined
   );
@@ -44,6 +43,10 @@ export function ProfileDetails({authedUser, user}: ProfileDetailsProps) {
     insertUser,
     undefined
   );
+
+  const state = user ? editState : insertState;
+  const dispatch = user ? editDispatch : insertDispatch;
+  const loading = user ? editLoading : insertLoading;
 
   // Handle update state
   useEffect(() => {
@@ -53,7 +56,7 @@ export function ProfileDetails({authedUser, user}: ProfileDetailsProps) {
   }, [state, t]);
 
   return (
-    <form autoComplete="off" action={user ? dispatch : insertDispatch}>
+    <form autoComplete="off" action={dispatch}>
       <Card>
         <CardHeader
           subheader={t('user.informationCanBeEdited')}
@@ -115,14 +118,22 @@ export function ProfileDetails({authedUser, user}: ProfileDetailsProps) {
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
-                {...input(t, 'user', state, 'password', 'password')}
+                {...input(t, 'user', state, 'password', 'password', {
+                  required: !user,
+                })}
                 fullWidth
               />
             </Grid>
             {user && (
               <Grid item md={6} xs={12}>
                 <TextField
-                  {...input(t, 'user', state, 'passwordConfirm', 'password')}
+                  {...input(
+                    t,
+                    'user',
+                    editState,
+                    'passwordConfirm',
+                    'password'
+                  )}
                   fullWidth
                 />
               </Grid>

@@ -14,30 +14,44 @@ import {State, success} from '@/utils/State';
 import {Lang, Prisma} from '@prisma/client';
 import bcrypt from 'bcrypt';
 import {revalidatePath} from 'next/cache';
+import {redirect} from 'next/navigation';
 import {z} from 'zod';
 import {zfd} from 'zod-form-data';
 
 const SCOPE = 'user';
 
 const InsertUserSchema = zfd.formData({
-  admin: z.boolean(),
-  lang: z.enum(Object.values(Lang) as [Lang, ...Lang[]]),
   login: z.string().max(255),
   firstName: z.string().max(255),
   lastName: z.string().max(255),
   email: z.string().email().max(255),
   phone: z.string().max(255),
   password: z.string().max(255),
+  lang: z.enum(Object.values(Lang) as [Lang, ...Lang[]]),
+  admin: z
+    .string()
+    .nullish()
+    .transform(value => value === 'on'),
 });
+
+type InsertUserFields =
+  | 'login'
+  | 'firstName'
+  | 'lastName'
+  | 'email'
+  | 'phone'
+  | 'password'
+  | 'lang'
+  | 'admin';
 
 /**
  * Insert a new user in the database
  * @param model
  */
 export const insertUser = async (
-  prevState: State | undefined,
+  prevState: State<undefined, InsertUserFields> | undefined,
   formData: FormData
-) => {
+): Promise<typeof prevState> => {
   try {
     await authUserId();
 
@@ -66,8 +80,7 @@ export const insertUser = async (
     });
 
     revalidatePath('/app/user/list');
-
-    return success('server', undefined, 'success');
+    redirect('/app/user/list');
   } catch (error) {
     return handleError(error);
   }
@@ -151,7 +164,7 @@ export const getUsersTable = async (state: TableState) => {
         [filterOperatorMapper[filtersOperator]]: prismaFilters,
         ...where,
       },
-      orderBy: {[sortOrder?.name || 'id']: sortOrder?.direction || 'asc'},
+      orderBy: {[sortOrder?.name || 'login']: sortOrder?.direction || 'asc'},
       skip: page * rowsPerPage,
       take: rowsPerPage,
       select: {
