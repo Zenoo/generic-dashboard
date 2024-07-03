@@ -14,6 +14,7 @@ import Datatable, {WithId} from './Datatable';
 import {GlobalCsvExport} from './DatatableGlobalExport';
 import Text from './Text';
 import dayjs from 'dayjs';
+import {RecordObject} from '@prisma/client';
 
 interface TableOptions extends Omit<DataGridProps, 'rows'> {
   options?: Omit<DataGridProps, 'columns' | 'rows'>;
@@ -35,7 +36,7 @@ interface TableLayoutProps<InitialData, RowData> {
   remove?: (id: string) => Promise<State>;
   tableOptions: TableOptions;
   additionalButtons?: React.ReactNode;
-  model?: string;
+  records?: RecordObject;
   importMethod?: (data: FormData) => Promise<never>;
   globalCsvExport: GlobalCsvExport;
   empty?: () => Promise<never>;
@@ -55,7 +56,7 @@ function TableLayout<InitialData extends WithId, RowData extends WithId>({
   remove,
   tableOptions,
   additionalButtons,
-  model,
+  records,
   importMethod,
   globalCsvExport,
   empty,
@@ -67,6 +68,12 @@ function TableLayout<InitialData extends WithId, RowData extends WithId>({
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [deleted, setDeleted] = useState(0);
+
+  const getRecordsTableWithParams = getRecordsTable.bind(null, records ?? null);
+  const getAllRecordsAsCsvWithParams = getAllRecordsAsCsv.bind(
+    null,
+    records ?? null
+  );
 
   /**
    * Hack to reload data on delete
@@ -174,18 +181,18 @@ function TableLayout<InitialData extends WithId, RowData extends WithId>({
           />
         </Box>
       </Paper>
-      {model && (
+      {records && (
         <Stack spacing={2} sx={{mt: 2}}>
           <Text h4>{t('actions.actionsHistory')}</Text>
           <TableLayout
             user={user}
-            getter={getRecordsTable(model)}
+            getter={getRecordsTableWithParams}
             mapper={record => ({
               ...record,
               'author.person.firstName, author.person.lastName': `${record.author.person.firstName} ${record.author.person.lastName}`,
             })}
             globalCsvExport={{
-              fetcher: getAllRecordsAsCsv(model),
+              fetcher: getAllRecordsAsCsvWithParams,
               title: 'Record list',
             }}
             tableOptions={{
@@ -201,6 +208,21 @@ function TableLayout<InitialData extends WithId, RowData extends WithId>({
                   flex: 1,
                 },
                 {
+                  field: 'objectId',
+                  headerName: t('actions.objectId'),
+                  flex: 1,
+                },
+                {
+                  field: 'oldValue',
+                  headerName: t('actions.oldValue'),
+                  flex: 1,
+                },
+                {
+                  field: 'newValue',
+                  headerName: t('actions.newValue'),
+                  flex: 1,
+                },
+                {
                   field: 'date',
                   headerName: t('actions.date'),
                   flex: 1,
@@ -208,6 +230,7 @@ function TableLayout<InitialData extends WithId, RowData extends WithId>({
                     dayjs(value as string).format('DD/MM/YYYY HH:mm'),
                 },
               ],
+              checkboxSelection: false,
             }}
           />
         </Stack>

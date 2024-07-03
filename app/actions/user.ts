@@ -1,9 +1,14 @@
 'use server';
 
 import {prisma} from '@/prisma/prisma';
-import {authUserId} from '@/utils/server/authUserId';
+import {authUser, authUserId} from '@/utils/server/authUserId';
 import {ServerError} from '@/utils/server/CustomErrors';
 import {handleError, zodErrors} from '@/utils/server/handleError';
+import {
+  newCreateRecord,
+  newDeleteRecord,
+  newUpdateRecords,
+} from '@/utils/server/RecordUtils';
 import {
   asCsv,
   filterOperatorMapper,
@@ -11,7 +16,7 @@ import {
   TableState,
 } from '@/utils/server/TableUtils';
 import {State, success} from '@/utils/State';
-import {Lang, Prisma} from '@prisma/client';
+import {Lang, Prisma, RecordObject} from '@prisma/client';
 import bcrypt from 'bcrypt';
 import {revalidatePath} from 'next/cache';
 import {redirect} from 'next/navigation';
@@ -53,7 +58,7 @@ export const insertUser = async (
   formData: FormData
 ): Promise<typeof prevState> => {
   try {
-    await authUserId();
+    const userId = await authUserId();
 
     const parsedFormData = InsertUserSchema.safeParse(formData);
 
@@ -61,7 +66,7 @@ export const insertUser = async (
       return zodErrors(parsedFormData);
     }
 
-    await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         admin: parsedFormData.data.admin,
         lang: parsedFormData.data.lang,
@@ -78,6 +83,13 @@ export const insertUser = async (
       },
       select: {id: true},
     });
+
+    await newCreateRecord(
+      userId,
+      RecordObject.USER,
+      newUser.id,
+      parsedFormData.data.login
+    );
 
     revalidatePath('/app/user/list');
     redirect('/app/user/list');
@@ -285,6 +297,16 @@ export async function updateProfile(
 
     const userToUpdate = await prisma.user.findUnique({
       where: {id},
+      include: {
+        person: {
+          select: {
+            firstName: true,
+            lastName: true,
+            email: true,
+            phone: true,
+          },
+        },
+      },
     });
 
     if (!userToUpdate) {
@@ -311,6 +333,14 @@ export async function updateProfile(
           password: hashedPassword,
         },
       });
+
+      await newUpdateRecords(
+        userId,
+        RecordObject.USER,
+        userToUpdate.id,
+        {password: 'xxxxxx'},
+        {password: '******'}
+      );
     }
 
     // Update user
@@ -334,6 +364,26 @@ export async function updateProfile(
       },
     });
 
+    await newUpdateRecords(
+      userId,
+      RecordObject.USER,
+      userToUpdate.id,
+      {
+        lang: userToUpdate.lang,
+        admin: userToUpdate.admin,
+        login: userToUpdate.login,
+        firstName: userToUpdate.person.firstName,
+        lastName: userToUpdate.person.lastName,
+        email: userToUpdate.person.email,
+        phone: userToUpdate.person.phone,
+      },
+      {
+        ...parsedFormData.data,
+        password: undefined,
+        passwordConfirm: undefined,
+      }
+    );
+
     revalidatePath('/app/user/list');
     revalidatePath(`/app/user/${id}/edit`);
 
@@ -345,11 +395,21 @@ export async function updateProfile(
 
 export const deleteUser = async (id: string) => {
   try {
-    await authUserId();
+    const user = await authUser();
+
+    if (!id) {
+      throw new ServerError('noIDProvided');
+    }
+
+    if (user.id === id || !user.admin) {
+      throw new ServerError('unauthorized');
+    }
 
     await prisma.user.delete({
       where: {id},
     });
+
+    await newDeleteRecord(user.id, RecordObject.USER, id, id);
 
     revalidatePath('/app/user/list');
 

@@ -47,6 +47,9 @@ export default {
     object: 'Objet',
     action: 'Action',
     date: 'Date',
+    oldValue: 'Ancienne valeur',
+    newValue: 'Nouvelle valeur',
+    objectId: "ID de l'objet",
   },
   home: {
     users: 'Utilisateurs',

@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["nativeDistinct", "relationJoins", "omitApi"]
 }
 
@@ -47,17 +47,17 @@ enum Lang {
 }
 
 model User {
-  id             String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  lang           Lang     @default(en)
+  id       String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  lang     Lang     @default(en)
   /// @zod.max(255)
-  login          String   @unique @db.VarChar(255)
-  admin          Boolean  @default(false)
+  login    String   @unique @db.VarChar(255)
+  admin    Boolean  @default(false)
   /// @zod.max(255)
-  password       String   @db.VarChar(255)
-  active         Boolean  @default(true)
-  person         Person   @relation(fields: [personId], references: [id])
-  personId       String   @unique @db.Uuid
-  records        Record[]
+  password String   @db.VarChar(255)
+  active   Boolean  @default(true)
+  person   Person   @relation(fields: [personId], references: [id])
+  personId String   @unique @db.Uuid
+  records  Record[]
 }
 
 enum RequestStatus {
@@ -77,14 +77,22 @@ enum RecordAction {
   CREATE
   UPDATE
   DELETE
+  LOGIN
+}
+
+enum RecordObject {
+  USER
 }
 
 model Record {
   id       String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   date     DateTime     @default(now())
   action   RecordAction
-  object   String       @db.VarChar(255)
-  newValue String       @db.VarChar(255)
+  object   RecordObject
+  objectId String       @db.Uuid
+  key      String?      @db.VarChar(255)
+  oldValue String?      @db.VarChar(255)
+  newValue String?      @db.VarChar(255)
   author   User         @relation(fields: [authorId], references: [id])
   authorId String       @db.Uuid
 }

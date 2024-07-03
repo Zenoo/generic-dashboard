@@ -47,6 +47,9 @@ export default {
     object: 'Object',
     action: 'Action',
     date: 'Date',
+    oldValue: 'Old value',
+    newValue: 'New value',
+    objectId: 'Object ID',
   },
   home: {
     users: 'Users',

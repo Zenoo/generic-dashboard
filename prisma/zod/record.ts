@@ -1,13 +1,16 @@
 import * as z from "zod"
-import { RecordAction } from "@prisma/client"
+import { RecordAction, RecordObject } from "@prisma/client"
 import { CompleteUser, RelatedUserModel } from "./index"
 
 export const RecordModel = z.object({
   id: z.string(),
   date: z.date(),
   action: z.nativeEnum(RecordAction),
-  object: z.string(),
-  newValue: z.string(),
+  object: z.nativeEnum(RecordObject),
+  objectId: z.string(),
+  key: z.string().nullish(),
+  oldValue: z.string().nullish(),
+  newValue: z.string().nullish(),
   authorId: z.string(),
 })
 

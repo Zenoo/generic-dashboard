@@ -4,6 +4,7 @@ import {deleteUser, getAllUsersAsCsv, getUsersTable} from '@/app/actions/user';
 import TableLayout from '@/components/TableLayout';
 import {useI18n} from '@/locales/client';
 import {AuthedUser} from '@/utils/server/authUserId';
+import {RecordObject} from '@prisma/client';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
 import {toast} from 'react-toastify';
@@ -58,6 +59,7 @@ export default function UserTable({user}: UserTableProps) {
         add={goToNewUser}
         edit={goToUserEdit}
         remove={deleteUser}
+        records={RecordObject.USER}
         tableOptions={{
           columns: [
             {

@@ -5,6 +5,7 @@ import Credentials from 'next-auth/providers/credentials';
 import {z} from 'zod';
 import {authConfig} from './auth.config';
 import {prisma} from './prisma/prisma';
+import {newLoginRecord} from './utils/server/RecordUtils';
 
 declare module 'next-auth' {
   /**
@@ -42,6 +43,8 @@ export const {auth, signIn, signOut} = NextAuth({
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
           if (passwordsMatch) {
+            await newLoginRecord(user.id);
+
             return {id: user.id, login: user.login, admin: user.admin};
           }
         }
