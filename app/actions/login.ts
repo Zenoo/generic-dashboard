@@ -80,8 +80,6 @@ export async function sendPasswordResetMail(login: string): Promise<State> {
       login
     )}&reset=${encodeURIComponent(token)}`;
 
-    console.log(url);
-
     const t = await getScopedI18n('server');
 
     // // Send email
