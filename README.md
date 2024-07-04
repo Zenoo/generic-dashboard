@@ -6,13 +6,13 @@
 
 ## How to use
 
-- Create a new project from this template (make sure to include all branches)
+- Create a new project from this template
 
 ![](https://i.imgur.com/Hc0JsXs.png)
 
 - Create a Personal Access Token on GitHub with the `repo` scope and add it to your repository secrets as `RELEASE_PLEASE_TOKEN`
 
-- Start working from the `dev` branch, the `main` branch is protected and should only be updated by the release-please action
+- Every commit pushed to the `main` branch will trigger a release draft on GitHub, once you're ready to release it, merge the draft and a new release will be created
 
 - Copy `.env.sample` to `.env` and adapt the variables
 
@@ -34,9 +34,21 @@
 
 ## Deployment
 
+### Heroku
+
 *This project should deploy successfully as-is on Heroku*
 
-- If deploying to Heroku, privision a PostgreSQL database and use the following buildpack: https://elements.heroku.com/buildpacks/mars/heroku-nextjs
+- Provision a PostgreSQL database
+
+- Use the following buildpack: https://elements.heroku.com/buildpacks/mars/heroku-nextjs
+
+- Follow the instructions on https://github.com/akhileshns/heroku-deploy to configure your deployment key
+
+- Edit [.github/workflows/deploy-to-heroku.yml](.github/workflows/deploy-to-heroku.yml) to match your app name and email, and remove `if: false` to enable the workflow
+
+- Your app will be deployed automatically on every version published
+
+### Other platforms
 
 - Set the environment variables
 
