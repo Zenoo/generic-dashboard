@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.7](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.6...generic-dashboard-v1.1.7) (2024-07-04)
+
+
+### Bug Fixes
+
+* Deploy job name ([2ef9354](https://github.com/Zenoo/generic-dashboard/commit/2ef9354fe10245b288b5bafb085b00d79aaff245))
+
 ## [1.1.6](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.5...generic-dashboard-v1.1.6) (2024-07-04)
 
 
