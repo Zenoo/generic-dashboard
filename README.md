@@ -32,6 +32,8 @@
 
 *This project should deploy successfully as-is on Heroku*
 
+- If deploying to Heroku, privision a PostgreSQL database and use the following buildpack: https://elements.heroku.com/buildpacks/mars/heroku-nextjs
+
 - Set the environment variables
 
 - Install dependencies: `pnpm i`
