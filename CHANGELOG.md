@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.0.1...generic-dashboard-v1.0.2) (2024-07-04)
+
+
+### Bug Fixes
+
+* Heroku config ([aa4ae00](https://github.com/Zenoo/generic-dashboard/commit/aa4ae0096110c11b66995c9084fa8bf96785e232))
+* release-please target branch ([3911060](https://github.com/Zenoo/generic-dashboard/commit/3911060bbce58e40f5c03dde03384f6f0cc59f09))
+
 ## [1.0.1](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.0.0...generic-dashboard-v1.0.1) (2024-07-04)
 
 
