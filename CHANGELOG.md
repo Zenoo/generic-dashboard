@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.0.2...generic-dashboard-v1.1.0) (2024-07-04)
+
+
+### Features
+
+* Retrigger release ([93e9dd0](https://github.com/Zenoo/generic-dashboard/commit/93e9dd0233d9ee7be32643eedbe411545b08f70a))
+
+
+### Bug Fixes
+
+* Auto deploy to main using another action ([ae6a2fc](https://github.com/Zenoo/generic-dashboard/commit/ae6a2fcb3565b3b5143efc1f6f9db340de6fe896))
+* Deploy to main on release ([aca560f](https://github.com/Zenoo/generic-dashboard/commit/aca560fd108d74352ec44c3ba791c2a81524abe2))
+
 ## [1.0.2](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.0.1...generic-dashboard-v1.0.2) (2024-07-04)
 
 
