@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.8](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.7...generic-dashboard-v1.1.8) (2024-07-04)
+
+
+### Bug Fixes
+
+* Remove buildpack ([e9694d1](https://github.com/Zenoo/generic-dashboard/commit/e9694d1704e0035cf5198952aa1fbca017c2415f))
+
 ## [1.1.7](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.6...generic-dashboard-v1.1.7) (2024-07-04)
 
 
