@@ -40,8 +40,6 @@
 
 - Provision a PostgreSQL database
 
-- Use the following buildpack: https://elements.heroku.com/buildpacks/mars/heroku-nextjs
-
 - Follow the instructions on https://github.com/akhileshns/heroku-deploy to configure your deployment key
 
 - Edit [.github/workflows/deploy-to-heroku.yml](.github/workflows/deploy-to-heroku.yml) to match your app name and email, and remove `if: false` to enable the workflow
