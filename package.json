@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "prisma generate && start http://localhost:3000 && next dev",
-    "build": "prisma generate && prisma db push && prisma db seed && next build",
+    "build": "prisma generate && prisma migrate deploy && prisma db seed && next build",
     "start": "next start -p $PORT",
     "lint": "gts lint",
     "clean": "gts clean",
