@@ -36,8 +36,6 @@
 
 - Install dependencies: `pnpm i`
 
-- Update the database with `npx prisma migrate deploy`
-
 - Build the app with `pnpm build`
 
 - Start the app with `pnpm start`
