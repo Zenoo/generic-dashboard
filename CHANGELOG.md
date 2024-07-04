@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.3...generic-dashboard-v1.1.4) (2024-07-04)
+
+
+### Bug Fixes
+
+* Rebase instead of merge ([01fbc82](https://github.com/Zenoo/generic-dashboard/commit/01fbc82ecda79c423d9b5fb97f1fb65b907485cb))
+
 ## [1.1.3](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.2...generic-dashboard-v1.1.3) (2024-07-04)
 
 
