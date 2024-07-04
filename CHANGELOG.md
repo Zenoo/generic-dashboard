@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.0.2...generic-dashboard-v1.0.3) (2024-07-04)
+
+
+### Bug Fixes
+
+* Access PR number from action ([95c889d](https://github.com/Zenoo/generic-dashboard/commit/95c889db1e9ef626c3c9ea49fae9cd2c7f172359))
+* Deploy from dev to main on release ([a5c4178](https://github.com/Zenoo/generic-dashboard/commit/a5c4178b35384d2f9defcb26125253962433e70b))
+
 ## [1.0.2](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.0.1...generic-dashboard-v1.0.2) (2024-07-04)
 
 
