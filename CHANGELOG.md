@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.9](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.8...generic-dashboard-v1.1.9) (2024-07-04)
+
+
+### Bug Fixes
+
+* Build command ([877f711](https://github.com/Zenoo/generic-dashboard/commit/877f711da1622631e5947e7c85e32ce78445a21e))
+* Prerender error on 404 ([4877758](https://github.com/Zenoo/generic-dashboard/commit/487775844b88bc98c1e7d16f7ca820de55d4cb27))
+
 ## [1.1.8](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.7...generic-dashboard-v1.1.8) (2024-07-04)
 
 
