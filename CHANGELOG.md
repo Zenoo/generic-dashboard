@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.0...generic-dashboard-v1.1.1) (2024-07-04)
+
+
+### Bug Fixes
+
+* Crate auto PR manually ([e608fd2](https://github.com/Zenoo/generic-dashboard/commit/e608fd2e2e1f17ab6de4ae46df185d8d7409b8f6))
+
 ## [1.1.0](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.0.2...generic-dashboard-v1.1.0) (2024-07-04)
 
 
