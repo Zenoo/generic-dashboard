@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.6](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.5...generic-dashboard-v1.1.6) (2024-07-04)
+
+
+### Bug Fixes
+
+* Back to releasing on main ([dfa0760](https://github.com/Zenoo/generic-dashboard/commit/dfa076051a64ca4c1b26dbeffedcf09c6faa0c89))
+
 ## [1.1.5](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.4...generic-dashboard-v1.1.5) (2024-07-04)
 
 
