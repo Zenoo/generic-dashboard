@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.1...generic-dashboard-v1.1.2) (2024-07-04)
+
+
+### Bug Fixes
+
+* Typo ([81840ea](https://github.com/Zenoo/generic-dashboard/commit/81840ea25dfb9371f9c4673813cbbfc5800f6a6a))
+
 ## [1.1.1](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.0...generic-dashboard-v1.1.1) (2024-07-04)
 
 
