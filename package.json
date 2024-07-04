@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "start http://localhost:3000 && next dev",
-    "build": "next build",
+    "dev": "prisma generate && start http://localhost:3000 && next dev",
+    "build": "prisma generate && prisma db push && prisma db seed && next build",
     "start": "next start",
     "lint": "gts lint",
     "clean": "gts clean",
