@@ -37,3 +37,4 @@ jobs:
               pull_number: pr_number,
               merge_method: 'merge'
             });
+
