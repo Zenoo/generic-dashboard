@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.1](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.0.0...generic-dashboard-v1.0.1) (2024-07-04)
+
+
+### Bug Fixes
+
+* Build script ([8df4e87](https://github.com/Zenoo/generic-dashboard/commit/8df4e877c0a1f920887b373468fbf63753540717))
+* Deploy on vercel on tags ([72ee750](https://github.com/Zenoo/generic-dashboard/commit/72ee7504c2492e36951bf0a974344f5df0ee6c23))
+* README instructions ([8d605cc](https://github.com/Zenoo/generic-dashboard/commit/8d605cc2f2a47c4e8d80018ca6881fb9a6371219))
+
 ## [1.0.0](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v0.0.1...generic-dashboard-v1.0.0) (2024-07-03)
 
 
