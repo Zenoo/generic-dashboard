@@ -15,22 +15,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create Pull Request
-        id: cpr
-        uses: rematocorp/open-pull-request-action@v1
-        with:
-          github-token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-          from-branch: dev
-          to-branch: main
-          repository-owner: ${{ github.repository_owner }}
-          repository: ${{ github.repository }}
-
-      - name: Merge Pull Request
+      - name: Create and Merge Pull Request
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           script: |
-            const pr_number = ${{ steps.cpr.outputs.pull_number }};
+            const github = context.github;
+            const { data: pr } = await github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Merge dev to main',
+              head: 'dev',
+              base: 'main',
+              maintainer_can_modify: true
+            });
+
+            const pr_number = pr.number;
+
             await github.pulls.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
