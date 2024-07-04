@@ -3,8 +3,11 @@ import {Box, Container} from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
 import Layout from './[locale]/(visitor)/layout';
+import {setStaticParamsLocale} from 'next-international/server';
 
 function NotFoundView() {
+  setStaticParamsLocale('en');
+
   return (
     <Layout>
       <Container maxWidth="md" sx={{my: 2}}>
