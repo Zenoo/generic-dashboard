@@ -6,9 +6,13 @@
 
 ## How to use
 
-- Create a new project from this template
+- Create a new project from this template (make sure to include all branches)
 
 ![](https://i.imgur.com/Hc0JsXs.png)
+
+- Create a Personal Access Token on GitHub with the `repo` scope and add it to your repository secrets as `RELEASE_PLEASE_TOKEN`
+
+- Start working from the `dev` branch, the `main` branch is protected and should only be updated by the release-please action
 
 - Copy `.env.sample` to `.env` and adapt the variables
 
