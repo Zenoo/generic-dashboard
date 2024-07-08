@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.11](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.10...generic-dashboard-v1.1.11) (2024-07-08)
+
+
+### Bug Fixes
+
+* Cron job example ([08c6f7d](https://github.com/Zenoo/generic-dashboard/commit/08c6f7d9305275609201df223fb1c91264cb7027))
+
 ## [1.1.10](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.9...generic-dashboard-v1.1.10) (2024-07-08)
 
 
