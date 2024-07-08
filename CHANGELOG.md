@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.10](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.9...generic-dashboard-v1.1.10) (2024-07-08)
+
+
+### Bug Fixes
+
+* Heroku env variables ([ae15938](https://github.com/Zenoo/generic-dashboard/commit/ae15938a59ac6709d0024481428e30b561fc39ad))
+* Vercel deployment ([64facb7](https://github.com/Zenoo/generic-dashboard/commit/64facb794cb4dc7662b5025839c36b564601711f))
+
 ## [1.1.9](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.8...generic-dashboard-v1.1.9) (2024-07-04)
 
 
