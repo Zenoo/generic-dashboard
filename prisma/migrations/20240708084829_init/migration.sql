@@ -5,10 +5,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TYPE "Lang" AS ENUM ('en', 'fr');
 
 -- CreateEnum
-CREATE TYPE "RequestStatus" AS ENUM ('PENDING', 'SUCCESS', 'ERROR');
+CREATE TYPE "RecordAction" AS ENUM ('CREATE', 'UPDATE', 'DELETE', 'LOGIN');
 
 -- CreateEnum
-CREATE TYPE "RecordAction" AS ENUM ('CREATE', 'UPDATE', 'DELETE');
+CREATE TYPE "RecordObject" AS ENUM ('USER');
 
 -- CreateTable
 CREATE TABLE "Address" (
@@ -42,22 +42,11 @@ CREATE TABLE "User" (
     "lang" "Lang" NOT NULL DEFAULT 'en',
     "login" VARCHAR(255) NOT NULL,
     "admin" BOOLEAN NOT NULL DEFAULT false,
-    "password" VARCHAR(255),
+    "password" VARCHAR(255) NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
-    "connexionToken" VARCHAR(255) NOT NULL DEFAULT '',
     "personId" UUID NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Request" (
-    "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "status" "RequestStatus" NOT NULL,
-    "response" JSONB NOT NULL,
-
-    CONSTRAINT "Request_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -65,8 +54,11 @@ CREATE TABLE "Record" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "action" "RecordAction" NOT NULL,
-    "object" VARCHAR(255) NOT NULL,
-    "newValue" VARCHAR(255) NOT NULL,
+    "object" "RecordObject" NOT NULL,
+    "objectId" UUID NOT NULL,
+    "key" VARCHAR(255),
+    "oldValue" VARCHAR(255),
+    "newValue" VARCHAR(255),
     "authorId" UUID NOT NULL,
 
     CONSTRAINT "Record_pkey" PRIMARY KEY ("id")

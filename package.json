@@ -2,10 +2,11 @@
   "name": "generic-dashboard",
   "version": "1.1.9",
   "private": true,
+  "packageManager": "pnpm@9.4.0",
   "scripts": {
     "dev": "prisma generate && start http://localhost:3000 && next dev",
     "build": "prisma generate && prisma migrate deploy && prisma db seed && next build",
-    "start": "next start -p $PORT",
+    "start": "next start",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",

@@ -2,5 +2,6 @@
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
   "search.exclude": {
     "prisma/zod/**/*": true
-  }
+  },
+  "files.eol": "\n"
 }

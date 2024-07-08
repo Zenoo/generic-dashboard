@@ -34,19 +34,29 @@
 
 ## Deployment
 
-### Heroku
+### Vercel
 
-*This project should deploy successfully as-is on Heroku*
+*This project should deploy successfully as-is on Vercel*
 
-- Provision a PostgreSQL database
+- Install the [Vercel CLI](https://vercel.com/cli) and run `vercel login`
 
-- Add the environment variable `AUTH_URL` with the URL of your app
+- Run `vercel link` to create a new Vercel project or link to an existing one
+
+- Navigate to the generated `.vercel` folder, and open project.json to find the `projectID` and `orgId`
+
+- In GitHub, set `VERCEL_PROJECT_ID` to your `projectID` and `VERCEL_ORG_ID` to your `orgID`
+
+- Retrieve your [Vercel Access Token](https://vercel.com/guides/how-do-i-use-a-vercel-api-access-token) and set it as the value of `VERCEL_TOKEN`
+
+- Setup a Postgres storage on Vercel using the `DATABASE` environment variable prefix
+
+<!-- - Add the environment variable `AUTH_URL` with the URL of your app -->
 
 - Add the environment variable `AUTH_SECRET` with a random string generated with `openssl rand -base64 33`
 
 - Follow the instructions on https://github.com/akhileshns/heroku-deploy to configure your deployment key
 
-- Edit [.github/workflows/deploy-to-heroku.yml](.github/workflows/deploy-to-heroku.yml) to match your app name and email, and remove `if: false` to enable the workflow
+- Edit [.github/workflows/deploy-to-vercel.yml](.github/workflows/deploy-to-vercel.yml) and remove `if: false` to enable the workflow
 
 - Your app will be deployed automatically on every version published
 
