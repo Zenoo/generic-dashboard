@@ -16,6 +16,8 @@
 
 - Copy `.env.sample` to `.env` and adapt the variables
 
+- Set the environment variable `AUTH_SECRET` with a random string generated with `openssl rand -base64 33`
+
 - Install dependencies: `pnpm i`
 
 - Update the database with `npx prisma migrate dev`
