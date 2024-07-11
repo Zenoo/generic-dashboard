@@ -54,8 +54,6 @@
 
 - Add the environment variable `AUTH_SECRET` with a random string generated with `openssl rand -base64 33`
 
-- Follow the instructions on https://github.com/akhileshns/heroku-deploy to configure your deployment key
-
 - Edit [.github/workflows/deploy-to-vercel.yml](.github/workflows/deploy-to-vercel.yml) and remove `if: false` to enable the workflow
 
 - Your app will be deployed automatically on every version published
