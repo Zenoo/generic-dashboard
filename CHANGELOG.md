@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.12](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.11...generic-dashboard-v1.1.12) (2024-07-11)
+
+
+### Bug Fixes
+
+* Ignore favicon in middleware ([67b3b36](https://github.com/Zenoo/generic-dashboard/commit/67b3b36d303aeb5d6b8679d0fdfbbabce0825ca4))
+
 ## [1.1.11](https://github.com/Zenoo/generic-dashboard/compare/generic-dashboard-v1.1.10...generic-dashboard-v1.1.11) (2024-07-08)
 
 
