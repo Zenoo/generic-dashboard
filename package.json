@@ -30,7 +30,7 @@
     "dayjs": "^1.11.11",
     "file-size": "^1.0.0",
     "next": "15.0.0-rc.0",
-    "next-auth": "5.0.0-beta.19",
+    "next-auth": "5.0.0-beta.30",
     "next-international": "^1.2.4",
     "nodemailer": "^7.0.7",
     "react": "19.0.0-rc-f994737d14-20240522",
